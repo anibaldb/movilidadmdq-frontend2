@@ -1,0 +1,23 @@
+.route-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calcular-btn {
+  margin-top: 4px;
+  padding: 16px 18px;
+  border: none;
+  border-radius: 20px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.calcular-btn:hover {
+  background-color: #1f6fe0;
+}

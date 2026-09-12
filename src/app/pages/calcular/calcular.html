@@ -1,0 +1,10 @@
+<div class="calcular-layout">
+  <div class="calcular-sidebar">
+    <app-route-form (calcular)="onCalcular($event)" />
+    <app-ride-options [hasRoute]="hasRoute()" />
+  </div>
+
+  <div class="calcular-map">
+    <app-map [hasRoute]="hasRoute()" />
+  </div>
+</div>

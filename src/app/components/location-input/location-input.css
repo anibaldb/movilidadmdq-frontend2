@@ -1,0 +1,28 @@
+.location-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-surface-soft);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.pin-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.location-input input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.location-input input::placeholder {
+  color: var(--color-text-muted);
+}

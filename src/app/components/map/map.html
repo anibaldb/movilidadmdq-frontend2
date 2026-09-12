@@ -1,0 +1,10 @@
+<div class="map-container">
+  <google-map height="100%" width="100%" [center]="center" [zoom]="zoom" [options]="mapOptions">
+    <map-marker [position]="origenPos" [label]="'A'" />
+    <map-marker [position]="destinoPos" [label]="'B'" />
+
+    @if (hasRoute()) {
+      <map-polyline [path]="routePath" [options]="polylineOptions" />
+    }
+  </google-map>
+</div>

@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-bg: #0b1e33;
+  --color-surface: #14304f;
+  --color-surface-soft: rgba(255, 255, 255, 0.05);
+  --color-primary: #2f80ed;
+  --color-primary-light: #56ccf2;
+  --color-text: #eef4ff;
+  --color-text-muted: rgba(186, 212, 255, 0.6);
+  --color-border: rgba(148, 197, 255, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

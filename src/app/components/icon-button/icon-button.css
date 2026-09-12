@@ -1,0 +1,22 @@
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-surface-soft);
+  color: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.icon-btn:hover {
+  background-color: rgba(47, 128, 237, 0.25);
+}
+
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
