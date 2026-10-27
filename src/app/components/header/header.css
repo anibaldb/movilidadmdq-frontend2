@@ -2,12 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   padding: 24px 16px 16px;
 }
 
 .app-name {
   margin: 0;
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 900;
   letter-spacing: -0.025em;
   color: var(--color-text);
@@ -16,12 +17,27 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
+/* En celular el saludo no entra al lado de los botones */
 .greeting {
+  display: none;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-muted);
 }
 
+@media (min-width: 768px) {
+  .app-name {
+    font-size: 1.875rem;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .greeting {
+    display: inline;
+  }
+}
