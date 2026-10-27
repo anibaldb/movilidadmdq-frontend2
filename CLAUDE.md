@@ -85,6 +85,8 @@ No se mueven ni renombran las carpetas que ya existen (`components/`, `pages/`) 
 | Estilos | CSS propio y simple en cada componente. En `styles.css` solo los estilos base y unas pocas variables para los colores que se repiten | Las pantallas son simples; no hace falta Tailwind ni un sistema de diseño |
 | Secretos | Nada de claves en el repo salvo la de Maps del front (restringida por dominio) | RNF08 y RNF09 |
 
+| Responsive | Mobile first: estilos base para celular y `@media (min-width: 768px)` para PC/horizontal. Un solo punto de corte | El boceto es mobile; con dos tamaños se cubre celular y PC |
+
 ## 7. Diseño
 
 **Dos fuentes, cada una para una cosa:**
