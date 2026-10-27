@@ -1,21 +1,103 @@
+/* =========================================================
+   Estilos globales de MovilidadMDQ (SCRUM-16)
+   Tomados de frontend1 para que las dos apps se vean igual.
+   ========================================================= */
+
+/* 1. Colores que se repiten en toda la app */
 :root {
-  --color-bg: #0b1e33;
-  --color-surface: #14304f;
-  --color-surface-soft: rgba(255, 255, 255, 0.05);
-  --color-primary: #2f80ed;
-  --color-primary-light: #56ccf2;
-  --color-text: #eef4ff;
-  --color-text-muted: rgba(186, 212, 255, 0.6);
-  --color-border: rgba(148, 197, 255, 0.15);
+  --color-bg: #f9fafb;            /* fondo de la app: gris muy claro */
+  --color-surface: #ffffff;       /* tarjetas y header */
+  --color-surface-soft: #f3f4f6;  /* fondo de inputs y botones redondos */
+  --color-primary: #000000;       /* botones principales y opción activa */
+  --color-primary-hover: #1f2937; /* botón principal al pasar el mouse */
+  --color-text: #111827;          /* texto principal */
+  --color-text-muted: #6b7280;    /* texto secundario */
+  --color-text-faint: #9ca3af;    /* etiquetas, íconos y placeholders */
+  --color-border: #e5e7eb;        /* bordes suaves */
+  --color-danger: #dc2626;        /* borrar y mensajes de error */
 }
 
+/* 2. Base */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* 3. Clases comunes (se usan en casi todas las pantallas del boceto) */
+
+/* Tarjeta blanca redondeada con sombra suave */
+.card {
+  background-color: var(--color-surface);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(229, 231, 235, 0.5),
+              0 8px 10px -6px rgba(229, 231, 235, 0.5);
+}
+
+/* Botón negro grande en mayúsculas (CALCULAR, ENTRAR, GUARDAR CAMBIOS) */
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-primary:disabled {
+  background-color: var(--color-text-faint);
+  cursor: not-allowed;
+}
+
+/* Campo de texto */
+.input {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background-color: var(--color-surface-soft);
+  color: var(--color-text);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-text-faint);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Etiqueta chica arriba de un campo (EMAIL, CONTRASEÑA) */
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-faint);
 }
