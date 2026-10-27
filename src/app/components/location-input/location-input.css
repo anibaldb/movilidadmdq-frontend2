@@ -1,16 +1,20 @@
 .location-input {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background-color: var(--color-surface-soft);
-  border-radius: 14px;
-  padding: 12px 14px;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.location-input:focus-within {
+  box-shadow: 0 0 0 2px var(--color-primary);
 }
 
 .pin-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--color-primary-light);
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-faint);
   flex-shrink: 0;
 }
 
@@ -20,9 +24,9 @@
   background: transparent;
   outline: none;
   color: var(--color-text);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .location-input input::placeholder {
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
 }

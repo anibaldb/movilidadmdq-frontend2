@@ -18,9 +18,8 @@
   flex: 1;
   min-width: 0;
   position: sticky;
-  top: 16px;
-  
-  border-radius: 12px;
+  top: 16px;  
+  border-radius: 24px;
   overflow: hidden;
 
 }
