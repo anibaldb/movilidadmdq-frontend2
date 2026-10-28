@@ -46,9 +46,11 @@ Diferidas (no se hacen salvo que sobre tiempo): SCRUM-26, 29, 32, 40.
 
 - **Una rama por tarjeta de Jira:** `SCRUM-27-formulario-origen-destino`.
 - **Commits con la clave:** `SCRUM-27 valida que origen y destino no estén vacíos`.
-- **Nadie pushea directo a `main`.** Todo entra por Pull Request; el otro integrante lo mira y se hace merge. Después se borra la rama.
-- Vercel arma una preview de cada PR: se prueba ahí antes de mergear.
-- **Antes de empezar una tarjeta:** `git checkout main && git pull` y recién ahí crear la rama.
+- **Rama de integración: `dev`.** Las ramas de tarjeta salen de `dev` y su Pull Request va a `dev`; el otro integrante lo revisa y se hace merge. Después se borra la rama.
+- **`main` es producción** (lo publica Vercel): solo recibe `dev`, por PR, al cerrar cada sprint o antes de una entrega.
+- **Nadie pushea directo a `dev` ni a `main`.** Única excepción: cambios solo de documentación (este archivo), si el otro está de acuerdo.
+- Vercel arma una preview de cada PR, pero ahí el mapa y la API no andan (la clave de Maps y el CORS del back solo aceptan `localhost` y la URL de producción): se prueba en `localhost` antes de pedir revisión.
+- **Antes de empezar una tarjeta:** `git checkout dev && git pull` y recién ahí crear la rama.
 - **Archivos compartidos** (`app.routes.ts`, `styles.css`): cambios chicos, en el mismo PR de la pantalla que los necesita. Si hay conflicto, lo resuelve el que mergea segundo.
 - Fines de línea: los normaliza `.gitattributes` (Windows/Linux no generan cambios falsos).
 
@@ -122,6 +124,8 @@ Seguimos el estilo del modelo de parcial de la cátedra. Ejemplo de formulario: 
 | 27/10 | Aníbal | CSS propio y simple (sin Tailwind ni librería de UI), con pocas variables de color | El diseño es simple a propósito para no complicar el CSS; el modo oscuro está diferido |
 | 28/10 | Aníbal | Se sigue el estilo del modelo de parcial de la cátedra: Signal Forms, `httpResource` para GET, `@Service()` y carpetas `models/`, `services/`, `guards/`, `interceptors/` directo en `app/` (reemplaza la propuesta de Reactive Forms y `core/`) | Es lo que la cátedra espera ver y es menos código |
 | 28/10 | Aníbal | Componente aparte solo si se usa en 2 o más pantallas o tiene lógica compleja | Se probó con `route-form` y `location-input` y era demasiado para algo de una sola pantalla; se borraron |
+| 28/10 | Equipo | Rama `dev` de integración: las tarjetas van por PR a `dev`; `main` solo recibe `dev` al cerrar sprint | `main` es producción en Vercel: ahí solo entra lo ya probado |
+| 28/10 | Equipo | Los cambios solo de documentación (`CLAUDE.md`) pueden ir directo a `dev` si el otro está de acuerdo | No hace falta revisión de código para texto |
 
 ## 9. Estado de las tarjetas
 
