@@ -1,0 +1,6 @@
+# Normaliza fines de linea: el repo guarda LF y cada compu usa el suyo.
+# Evita que Windows muestre archivos "modificados" sin cambios reales.
+* text=auto
+*.png binary
+*.jpg binary
+*.svg text
