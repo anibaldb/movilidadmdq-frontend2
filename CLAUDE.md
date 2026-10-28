@@ -122,6 +122,7 @@ Seguimos el estilo del modelo de parcial de la cátedra. Ejemplo de formulario: 
 | 27/10 | Aníbal | CSS propio y simple (sin Tailwind ni librería de UI), con pocas variables de color | El diseño es simple a propósito para no complicar el CSS; el modo oscuro está diferido |
 | 28/10 | Aníbal | Se sigue el estilo del modelo de parcial de la cátedra: Signal Forms, `httpResource` para GET, `@Service()` y carpetas `models/`, `services/`, `guards/`, `interceptors/` directo en `app/` (reemplaza la propuesta de Reactive Forms y `core/`) | Es lo que la cátedra espera ver y es menos código |
 | 28/10 | Aníbal | Componente aparte solo si se usa en 2 o más pantallas o tiene lógica compleja | Se probó con `route-form` y `location-input` y era demasiado para algo de una sola pantalla; se borraron |
+| 28/10 | Aníbal | Calcular: campos → botón → mapa → opciones, en una sola columna también en PC (se aparta del boceto, que pone el mapa entre campos y botón) | Código más simple (el botón queda dentro del form) y en el celular el botón queda a mano |
 
 ## 9. Estado de las tarjetas
 
