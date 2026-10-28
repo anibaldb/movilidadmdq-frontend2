@@ -22,11 +22,13 @@ El back ya acepta pedidos (CORS) desde `localhost:4200` y desde la URL de Vercel
 
 ## 2. Fechas
 
-| Sprint | Fechas | Objetivo |
+| Etapa | Fechas | Objetivo |
 |---|---|---|
 | Sprint 1 | 27/10 – 01/11 | Base técnica, login y búsqueda |
-| Sprint 2 | 02/11 – 06/11 | Pre-entrega (06/11): todo menos RF44–RF47 |
-| Sprint 3 | 09/11 – 16/11 | RF44–RF47, despliegue (14/11) y entrega final (16/11) |
+| Sprint 2 | 02/11 – 06/11 | Pantallas del cliente y panel admin (tarifa y usuarios). Pre-entrega (06/11) |
+| Cierre | 09/11 – 14/11 | Terminar lo que falte del Sprint 2, desplegar y probar. **14/11: Sprints 1 y 2 terminados y en `main`** |
+| Entrega final | 16/11 | Se entrega lo de los Sprints 1 y 2 (alcanza para la entrega) |
+| Sprint 3 y backlog | desde 09/11, en la rama `tesis` | Se codean pero **no se entregan**: se presentan en la tesis como requisitos nuevos (ver sección 4) |
 
 Exposición: 17/11.
 
@@ -36,15 +38,15 @@ Exposición: 17/11.
 |---|---|---|---|
 | 1 | SCRUM-15 Setup, 17 ApiService, 18 Sesión JWT, 19 Guards, 20 Entornos, 21 Iniciar sesión, 23 Crear cuenta | SCRUM-16 Estilo global, 38 Menú, 39 Ruteo, 27 Formulario, 28 Autocompletado y GPS, 33 Mapa | — |
 | 2 | SCRUM-30 Tarjetas comparativas, 31 Estados | SCRUM-34 Historial, 35 Marcar favorita, 36 Direcciones favoritas, 25 Perfil, 22 Login con Google | SCRUM-41 Tarifa, 42 Gestión de usuarios |
-| 3 | SCRUM-45 a 48 (back de RF44–RF47), 24 Pantalla recuperar contraseña | SCRUM-37 Estadísticas | SCRUM-43 Informe usuarios por mes, 44 Informe transporte más elegido, 49 Auditoría de búsquedas (si llega; está en el backlog) |
+| 3 | SCRUM-45 a 48 (back de RF44–RF47), 24 Pantalla recuperar contraseña | SCRUM-37 Estadísticas | SCRUM-43 Informe usuarios por mes, 44 Informe transporte más elegido, 49 Auditoría de búsquedas (del backlog) |
 
-Diferidas (no se hacen salvo que sobre tiempo): SCRUM-26, 29, 32, 40.
+**Rama `tesis`:** todo el Sprint 3 (SCRUM-24, 37, 43, 44, 45 a 48) y todo el backlog (SCRUM-26, 29, 32, 40, 49) se presentan después del 16/11 en la tesis como requisitos nuevos. Se codean en la rama `tesis`, no en `dev`, para que `main` tenga solo lo que se entrega el 16/11 (ver sección 4). En Jira llevan la etiqueta `tesis`.
 
 **Dependencia clave:** la Persona B y la Persona C pueden maquetar sin la API, pero para conectar pantallas necesitan SCRUM-15 (`provideHttpClient`), 17, 18, 19 y 20. Objetivo: base técnica en `dev` el **jueves 29/10**. Mientras tanto se usan los nombres acordados de la sección 6.1.
 
 ### 3.1 Tarjetas de la Persona C (panel de administración)
 
-Son las pantallas 11 a 14 del boceto. Todas son **solo ADMIN**: rutas bajo `/admin/...` con `canActivate: [adminGuard]`. Referencia de cómo lo resuelve la app anterior: `AdminDashboard.tsx` y `AuditView.tsx` de frontend1. Los endpoints exactos y los DTOs están en el Swagger.
+Son las pantallas 11 a 14 del boceto. **SCRUM-41 y 42 van a `dev`** (se entregan el 16/11); **SCRUM-43, 44 y 49 van a `tesis`**. Todas son **solo ADMIN**: rutas bajo `/admin/...` con `canActivate: [adminGuard]`. Referencia de cómo lo resuelve la app anterior: `AdminDashboard.tsx` y `AuditView.tsx` de frontend1. Los endpoints exactos y los DTOs están en el Swagger.
 
 | Tarjeta | Qué pide | Back | Ruta y carpeta |
 |---|---|---|---|
@@ -67,6 +69,8 @@ Son las pantallas 11 a 14 del boceto. Todas son **solo ADMIN**: rutas bajo `/adm
 - **Nadie pushea directo a `dev` ni a `main`.** Única excepción: cambios solo de documentación (este archivo), si el otro está de acuerdo.
 - Vercel arma una preview de cada PR, pero ahí el mapa y la API no andan (la clave de Maps y el CORS del back solo aceptan `localhost` y la URL de producción): se prueba en `localhost` antes de pedir revisión.
 - **Antes de empezar una tarjeta:** `git checkout dev && git pull` y recién ahí crear la rama.
+- **Rama `tesis` (Sprint 3 y backlog):** esas tarjetas salen de `tesis` (`git checkout tesis && git pull`) y su PR va a `tesis`, **nunca a `dev`**. Una vez por semana se trae lo nuevo de `dev` (`git checkout tesis && git merge dev`) para que no se acumulen conflictos. Después del 16/11: PR `tesis` → `dev` → `main`.
+- **Back de la tesis:** los cambios del back para la tesis (SCRUM-45 a 48 y los endpoints de los informes) también van en una rama `tesis` del repo del back, porque el back se despliega solo al pushear a su `main`. Para probarlos hay que levantar el back aparte (en la compu o en otro despliegue).
 - **Archivos compartidos** (`app.routes.ts`, `styles.css`): cambios chicos, en el mismo PR de la pantalla que los necesita. Si hay conflicto, lo resuelve el que mergea segundo.
 - Fines de línea: los normaliza `.gitattributes` (Windows/Linux no generan cambios falsos).
 
@@ -160,6 +164,7 @@ Acordados el 28/10 para poder trabajar en paralelo antes de que la sesión (SCRU
 | 28/10 | Equipo | Los cambios solo de documentación (`CLAUDE.md`) pueden ir directo a `dev` si el otro está de acuerdo | No hace falta revisión de código para texto |
 | 28/10 | Equipo | Se suma la Persona C: toma SCRUM-41 y 42 (eran de la Persona A), 43 y 44 (eran de la Persona B) y 49 | Repartir el panel de administración, que está separado del resto, para llegar a la pre-entrega |
 | 28/10 | Equipo | Nombres acordados para la sesión, los guards y las rutas (sección 6.1) | Trabajar en paralelo sin esperar la base técnica y sin servicios duplicados |
+| 28/10 | Equipo | Todo el Sprint 3 y el backlog se presentan después del 16/11 en la tesis: se codean en la rama `tesis` (front y back) y no entran a `dev` ni a `main` hasta después de la entrega | No hay tiempo para entregarlos el 16/11; así `main` tiene solo lo que se entrega. El cambio de alcance se registra en el dossier |
 
 ## 9. Estado de las tarjetas
 
