@@ -52,41 +52,44 @@ Diferidas (no se hacen salvo que sobre tiempo): SCRUM-26, 29, 32, 40.
 - **Archivos compartidos** (`app.routes.ts`, `styles.css`): cambios chicos, en el mismo PR de la pantalla que los necesita. Si hay conflicto, lo resuelve el que mergea segundo.
 - Fines de línea: los normaliza `.gitattributes` (Windows/Linux no generan cambios falsos).
 
-## 5. Estructura de carpetas — PROPUESTA (la confirma SCRUM-15)
+## 5. Estructura de carpetas
+
+Igual que el modelo de parcial de la cátedra (sin carpeta `core/`):
 
 ```
 src/
   environments/          URL del back y clave de Maps (nunca hardcodear URLs en el código)
   styles.css             variables de diseño (colores, radios, sombras) y estilos base
   app/
-    core/                lo que se usa en toda la app y existe una sola vez
-      models/            interfaces TypeScript = DTOs del back
-      services/          ApiService, AuthService, servicios por dominio
-      interceptors/      interceptor JWT
-      guards/            authGuard, adminGuard
-    components/          componentes reutilizables (header, inputs, tarjetas…) — ya existe
-    pages/               una carpeta por pantalla del diseño — ya existe
+    models/              interfaces TypeScript = DTOs del back
+    services/            un servicio por dominio (sesión, viajes, tarifas…)
+    interceptors/        interceptor JWT
+    guards/              authGuard, adminGuard
+    components/          componentes que se usan en 2 o más pantallas (header, mensaje-error…)
+    pages/               una carpeta por pantalla del diseño
     app.routes.ts
 ```
 
 No se mueven ni renombran las carpetas que ya existen (`components/`, `pages/`) para no generar conflictos.
 
-## 6. Cómo se escribe el código — PROPUESTA
+## 6. Cómo se escribe el código
+
+Seguimos el estilo del modelo de parcial de la cátedra. Ejemplo de formulario: `pages/calcular`.
 
 | Tema | Regla | Por qué |
 |---|---|---|
-| Componentes | Standalone, un componente por carpeta (`.ts`, `.html`, `.css`) | Es el estándar de Angular moderno y lo que pide Programación IV |
-| Estado | `signal()` / `computed()` | Más simple que manejar todo con RxJS y es lo que se ve en la materia |
+| Componentes | Standalone, un componente por carpeta (`.ts`, `.html`, `.css`). Componente aparte **solo si se usa en 2 o más pantallas o tiene lógica compleja** (ej. el mapa); si no, va directo en la página | Menos archivos y sin `input`/`output` que no hacen falta |
+| Estado | `signal()` / `computed()` | Más simple que RxJS y es lo que se ve en la materia |
 | Inyección | `inject()` en vez de constructor | Más corto y es el estilo actual de Angular |
-| HTTP | Los servicios devuelven `Observable`; el componente se suscribe y guarda el resultado en una signal | Las llamadas HTTP quedan en un solo lugar (servicios) |
-| Formularios | Reactive Forms con validaciones | Hay validaciones (RNF06) y se testean mejor |
+| Servicios | `@Service()` (de `@angular/core`), uno por dominio, en `services/` | Es como lo hace la cátedra |
+| HTTP — leer (GET) | `httpResource` en el servicio; el componente usa `.value()`, `.isLoading()` y `.error()` | No hace falta `subscribe` ni manejar "cargando" a mano |
+| HTTP — escribir (POST/PUT/PATCH/DELETE) | `HttpClient` en el servicio; el componente hace `subscribe` y después `reload()` del recurso para refrescar los datos | Las llamadas quedan en los servicios y la pantalla se actualiza sola |
+| Formularios | **Signal Forms**: `signal` con los datos + `form()` con las reglas (`required`, `pattern`, `email`…) + `[formField]` en cada input. Errores con `<app-mensaje-error [campo]="miForm.campo()" />`. Botón de enviar `[disabled]` mientras el form sea inválido | Es lo que usa la cátedra y es menos código que Reactive Forms |
 | Guards e interceptores | Funcionales (`CanActivateFn`, `HttpInterceptorFn`) | Es la forma actual; las clases están en desuso |
 | Nombres | Dominio en español, igual que el back (`viaje`, `tarifa`, `direccionFavorita`) | Que front y back hablen igual |
-| Estilos | CSS propio y simple en cada componente. En `styles.css` solo los estilos base y unas pocas variables para los colores que se repiten | Las pantallas son simples; no hace falta Tailwind ni un sistema de diseño |
-| Secretos | Nada de claves en el repo salvo la de Maps del front (restringida por dominio) | RNF08 y RNF09 |
-
+| Estilos | CSS propio y simple en cada componente. En `styles.css` solo los estilos base, unas pocas variables de color y las clases comunes `.card`, `.btn-primary`, `.input`, `.label` | Las pantallas son simples; no hace falta Tailwind ni un sistema de diseño |
 | Responsive | Mobile first: estilos base para celular y `@media (min-width: 768px)` para PC/horizontal. Un solo punto de corte | El boceto es mobile; con dos tamaños se cubre celular y PC |
-
+| Secretos | Nada de claves en el repo salvo la de Maps del front (restringida por dominio) | RNF08 y RNF09 |
 ## 7. Diseño
 
 **Dos fuentes, cada una para una cosa:**
@@ -117,7 +120,8 @@ No se mueven ni renombran las carpetas que ya existen (`components/`, `pages/`) 
 | 27/10 | Equipo | Se reutiliza este repo (no se crea uno nuevo) | Vercel, CORS y la clave de Maps ya están configurados para esta URL; el maquetado cuenta como trabajo hecho en el dossier |
 | 27/10 | Aníbal | El estilo visual sale de frontend1 y la distribución de pantallas, del boceto | Que la app nueva se vea como la misma app que ya está en producción; el maquetado actual se adapta |
 | 27/10 | Aníbal | CSS propio y simple (sin Tailwind ni librería de UI), con pocas variables de color | El diseño es simple a propósito para no complicar el CSS; el modo oscuro está diferido |
-| | | | |
+| 28/10 | Aníbal | Se sigue el estilo del modelo de parcial de la cátedra: Signal Forms, `httpResource` para GET, `@Service()` y carpetas `models/`, `services/`, `guards/`, `interceptors/` directo en `app/` (reemplaza la propuesta de Reactive Forms y `core/`) | Es lo que la cátedra espera ver y es menos código |
+| 28/10 | Aníbal | Componente aparte solo si se usa en 2 o más pantallas o tiene lógica compleja | Se probó con `route-form` y `location-input` y era demasiado para algo de una sola pantalla; se borraron |
 
 ## 9. Estado de las tarjetas
 
