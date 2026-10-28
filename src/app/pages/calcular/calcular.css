@@ -41,3 +41,58 @@
     top: 16px;
   }
 }
+
+/* Formulario de origen y destino */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Un campo: la caja con el input + el mensaje de error abajo */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* La caja gris con el ícono y el input adentro */
+.campo-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--color-surface-soft);
+}
+
+/* Borde negro cuando el input de adentro tiene el foco */
+.campo-input:focus-within {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Borde rojo cuando el campo tiene error */
+.campo-input.con-error {
+  box-shadow: 0 0 0 2px var(--color-danger);
+}
+
+.campo-input svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-text-faint);
+}
+
+/* El input en sí: sin borde ni fondo, porque los pone la caja */
+.campo-input input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.campo-input input::placeholder {
+  color: var(--color-text-faint);
+}
