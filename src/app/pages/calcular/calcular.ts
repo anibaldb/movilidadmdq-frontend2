@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { form, required, pattern, FormField } from '@angular/forms/signals';
 import { Map as AppMap } from '../../components/map/map';
 import { RideOptions } from '../../components/ride-options/ride-options';
@@ -22,16 +22,17 @@ export class Calcular {
     pattern(campo.destino, /\S/, { message: 'Ingresa el destino.' });
   });
 
-  readonly hasRoute = signal(false);
+  readonly rutaBuscada = signal<{ origen: string; destino: string } | null>(null);
+  readonly hasRoute = computed(() => this.rutaBuscada() !== null);
 
   calcular(event: Event) {
     event.preventDefault(); // evita que el navegador recargue la página
     if (this.formRuta().invalid()) return;
 
-    const origen = this.model().origen.trim();
-    const destino = this.model().destino.trim();
-
-    console.log('Ruta a calcular (mock):', origen, destino);
-    this.hasRoute.set(true); // el pedido real al back va en SCRUM-30
+    // Se agrega la ciudad para que Google no busque la calle en otro lado
+    this.rutaBuscada.set({
+      origen: `${this.model().origen.trim()}, Mar del Plata`,
+      destino: `${this.model().destino.trim()}, Mar del Plata`,
+    });
   }
 }
