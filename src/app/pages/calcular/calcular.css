@@ -77,6 +77,32 @@
   color: var(--color-text-faint);
 }
 
+/* Botón de GPS dentro del campo origen */
+.btn-gps {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-gps:hover svg {
+  color: var(--color-text);
+}
+
+.btn-gps:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* Mismo estilo que los errores del formulario */
+.error-gps {
+  margin: 0 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
 /* ---------- PC / pantalla horizontal ---------- */
 @media (min-width: 768px) {
   /* La misma columna, centrada y con ancho máximo */

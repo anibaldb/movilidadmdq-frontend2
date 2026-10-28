@@ -76,6 +76,47 @@ export class Calcular {
     this.coords.update((c) => ({ ...c, [campo]: null }));
   }
 
+    // Estado del botón de GPS
+  readonly buscandoUbicacion = signal(false);
+  readonly errorUbicacion = signal('');
+
+  usarMiUbicacion() {
+    if (!navigator.geolocation) {
+      this.errorUbicacion.set('Tu navegador no permite obtener la ubicación.');
+      return;
+    }
+
+    this.buscandoUbicacion.set(true);
+    this.errorUbicacion.set('');
+
+    navigator.geolocation.getCurrentPosition(
+      // Si da permiso: guardamos las coordenadas y mostramos la dirección
+      async (posicion) => {
+        const ubicacion = { lat: posicion.coords.latitude, lng: posicion.coords.longitude };
+        this.coords.update((c) => ({ ...c, origen: ubicacion }));
+        const direccion = await this.direccionDe(ubicacion);
+        this.model.update((m) => ({ ...m, origen: direccion }));
+        this.buscandoUbicacion.set(false);
+      },
+      // Si no da permiso o falla
+      () => {
+        this.errorUbicacion.set('No pudimos obtener tu ubicación. Revisá los permisos del navegador.');
+        this.buscandoUbicacion.set(false);
+      },
+    );
+  }
+
+  // Convierte coordenadas en una dirección para mostrar en el campo
+  private async direccionDe(ubicacion: google.maps.LatLngLiteral): Promise<string> {
+    const { Geocoder } = (await google.maps.importLibrary('geocoding')) as google.maps.GeocodingLibrary;
+    try {
+      const { results } = await new Geocoder().geocode({ location: ubicacion });
+      return results[0]?.formatted_address ?? 'Mi ubicación';
+    } catch {
+      return 'Mi ubicación'; // si Google no encuentra la dirección, igual tenemos las coordenadas
+    }
+  }
+
   calcular(event: Event) {
     event.preventDefault(); // evita que el navegador recargue la página
     if (this.formRuta().invalid()) return;

@@ -3,27 +3,36 @@
   <form class="formulario" (submit)="calcular($event)">
 
     <div class="campo">
-      <div class="campo-input"
-           [class.con-error]="formRuta.origen().touched() && formRuta.origen().invalid()">
+      <div class="campo-input" [class.con-error]="formRuta.origen().touched() && formRuta.origen().invalid()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
           <circle cx="12" cy="9" r="2.5" />
         </svg>
         <input #inputOrigen type="text" [formField]="formRuta.origen" placeholder="¿De dónde sales?"
-                 (input)="borrarCoords('origen')" (keydown.enter)="$event.preventDefault()" />
+          (input)="borrarCoords('origen')" (keydown.enter)="$event.preventDefault()" />
+        <button type="button" class="btn-gps" (click)="usarMiUbicacion()" [disabled]="buscandoUbicacion()"
+          title="Usar mi ubicación">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <circle cx="12" cy="12" r="7" />
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+          </svg>
+        </button>
       </div>
       <app-mensaje-error [campo]="formRuta.origen()" />
+      @if (errorUbicacion()) {
+        <p class="error-gps">{{ errorUbicacion() }}</p>
+      }
     </div>
 
     <div class="campo">
-      <div class="campo-input"
-           [class.con-error]="formRuta.destino().touched() && formRuta.destino().invalid()">
+      <div class="campo-input" [class.con-error]="formRuta.destino().touched() && formRuta.destino().invalid()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
           <circle cx="12" cy="9" r="2.5" />
         </svg>
-                  <input #inputDestino type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?"
-                 (input)="borrarCoords('destino')" (keydown.enter)="$event.preventDefault()" />
+        <input #inputDestino type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?"
+          (input)="borrarCoords('destino')" (keydown.enter)="$event.preventDefault()" />
 
       </div>
       <app-mensaje-error [campo]="formRuta.destino()" />
