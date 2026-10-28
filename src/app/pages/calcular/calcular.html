@@ -9,7 +9,8 @@
           <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
           <circle cx="12" cy="9" r="2.5" />
         </svg>
-        <input type="text" [formField]="formRuta.origen" placeholder="¿De dónde sales?" />
+        <input #inputOrigen type="text" [formField]="formRuta.origen" placeholder="¿De dónde sales?"
+                 (input)="borrarCoords('origen')" (keydown.enter)="$event.preventDefault()" />
       </div>
       <app-mensaje-error [campo]="formRuta.origen()" />
     </div>
@@ -21,7 +22,9 @@
           <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
           <circle cx="12" cy="9" r="2.5" />
         </svg>
-        <input type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?" />
+                  <input #inputDestino type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?"
+                 (input)="borrarCoords('destino')" (keydown.enter)="$event.preventDefault()" />
+
       </div>
       <app-mensaje-error [campo]="formRuta.destino()" />
     </div>

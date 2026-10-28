@@ -10,9 +10,9 @@ import { GoogleMap, MapDirectionsRenderer, MapDirectionsService } from '@angular
 export class Map {
   private directionsService = inject(MapDirectionsService);
 
-  // Lo que manda la página. Por ahora texto; en SCRUM-28 pasan a ser coordenadas
-  readonly origen = input<string>();
-  readonly destino = input<string>();
+  /// Lo que manda la página: coordenadas, o texto si la dirección se escribió a mano
+  readonly origen = input<string | google.maps.LatLngLiteral>();
+  readonly destino = input<string | google.maps.LatLngLiteral>();
 
   // La ruta que devuelve Google (undefined = no hay ruta para dibujar)
   readonly ruta = signal<google.maps.DirectionsResult | undefined>(undefined);
