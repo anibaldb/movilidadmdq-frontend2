@@ -78,17 +78,22 @@
 }
 
 /* ---------- PC / pantalla horizontal ---------- */
+/* Dos columnas: a la izquierda formulario y opciones; el mapa ocupa toda la derecha */
 @media (min-width: 768px) {
-  /* La misma columna, centrada y con ancho máximo */
   .calcular-layout {
-    max-width: 560px;
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px 24px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 32px 32px;
-    gap: 20px;
   }
 
-  /* En pantalla grande el mapa puede ser más alto */
   .calcular-map {
-    height: 400px;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    height: auto;
+    min-height: 480px;
   }
 }
