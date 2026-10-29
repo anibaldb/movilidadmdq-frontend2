@@ -1,26 +1,98 @@
+/* Celular (por defecto): todo en una columna */
 .calcular-layout {
   display: flex;
-  align-items: stretch;
-  gap: 24px;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 32px 32px;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px 24px;
 }
 
 .calcular-sidebar {
-  flex: 0 0 440px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
 .calcular-map {
-  flex: 1;
-  min-width: 0;
-  position: sticky;
-  top: 16px;
-  
-  border-radius: 12px;
+  height: 320px;
+  border-radius: 24px;
   overflow: hidden;
+}
 
+/* PC / pantalla horizontal: formulario a la izquierda, mapa a la derecha */
+@media (min-width: 768px) {
+  .calcular-layout {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 24px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px 32px;
+  }
+
+  .calcular-sidebar {
+    flex: 0 0 440px;
+  }
+
+  .calcular-map {
+    flex: 1;
+    min-width: 0;
+    height: auto;
+    position: sticky;
+    top: 16px;
+  }
+}
+
+/* Formulario de origen y destino */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Un campo: la caja con el input + el mensaje de error abajo */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* La caja gris con el ícono y el input adentro */
+.campo-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--color-surface-soft);
+}
+
+/* Borde negro cuando el input de adentro tiene el foco */
+.campo-input:focus-within {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Borde rojo cuando el campo tiene error */
+.campo-input.con-error {
+  box-shadow: 0 0 0 2px var(--color-danger);
+}
+
+.campo-input svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-text-faint);
+}
+
+/* El input en sí: sin borde ni fondo, porque los pone la caja */
+.campo-input input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.campo-input input::placeholder {
+  color: var(--color-text-faint);
 }

@@ -22,25 +22,45 @@ El back ya acepta pedidos (CORS) desde `localhost:4200` y desde la URL de Vercel
 
 ## 2. Fechas
 
-| Sprint | Fechas | Objetivo |
+| Etapa | Fechas | Objetivo |
 |---|---|---|
 | Sprint 1 | 27/10 – 01/11 | Base técnica, login y búsqueda |
-| Sprint 2 | 02/11 – 06/11 | Pre-entrega (06/11): todo menos RF44–RF47 |
-| Sprint 3 | 09/11 – 16/11 | RF44–RF47, despliegue (14/11) y entrega final (16/11) |
+| Sprint 2 | 02/11 – 06/11 | Pantallas del cliente y panel admin (tarifa y usuarios). Pre-entrega (06/11) |
+| Cierre | 09/11 – 14/11 | Terminar lo que falte del Sprint 2, desplegar y probar. **14/11: Sprints 1 y 2 terminados y en `main`** |
+| Entrega final | 16/11 | Se entrega lo de los Sprints 1 y 2 (alcanza para la entrega) |
+| Sprint 3 y backlog | desde 09/11, en la rama `tesis` | Se codean pero **no se entregan**: se presentan en la tesis como requisitos nuevos (ver sección 4) |
 
 Exposición: 17/11.
 
-## 3. Reparto (Plan B, 2 personas)
+## 3. Reparto (3 personas)
 
-| Sprint | Persona A | Persona B (Aníbal) |
-|---|---|---|
-| 1 | SCRUM-15 Setup, 17 ApiService, 18 Sesión JWT, 19 Guards, 20 Entornos, 21 Iniciar sesión, 23 Crear cuenta | SCRUM-16 Estilo global, 38 Menú, 39 Ruteo, 27 Formulario, 28 Autocompletado y GPS, 33 Mapa |
-| 2 | SCRUM-30 Tarjetas comparativas, 31 Estados, 41 Tarifa, 42 Gestión de usuarios | SCRUM-34 Historial, 35 Marcar favorita, 36 Direcciones favoritas, 25 Perfil, 22 Login con Google |
-| 3 | SCRUM-45 a 48 (back de RF44–RF47), 24 Pantalla recuperar contraseña | SCRUM-37 Estadísticas, 43 Informe usuarios por mes, 44 Informe transporte más elegido |
+| Sprint | Persona A (Agustín) | Persona B (Aníbal) | Persona C |
+|---|---|---|---|
+| 1 | SCRUM-15 Setup, 17 ApiService, 18 Sesión JWT, 19 Guards, 20 Entornos, 21 Iniciar sesión, 23 Crear cuenta | SCRUM-16 Estilo global, 38 Menú, 39 Ruteo, 27 Formulario, 28 Autocompletado y GPS, 33 Mapa | — |
+| 2 | SCRUM-30 Tarjetas comparativas, 31 Estados | SCRUM-34 Historial, 35 Marcar favorita, 36 Direcciones favoritas, 25 Perfil, 22 Login con Google | SCRUM-41 Tarifa, 42 Gestión de usuarios |
+| 3 | SCRUM-45 a 48 (back de RF44–RF47), 24 Pantalla recuperar contraseña | SCRUM-37 Estadísticas | SCRUM-43 Informe usuarios por mes, 44 Informe transporte más elegido, 49 Auditoría de búsquedas (del backlog) |
 
-Diferidas (no se hacen salvo que sobre tiempo): SCRUM-26, 29, 32, 40.
+**Rama `tesis`:** todo el Sprint 3 (SCRUM-24, 37, 43, 44, 45 a 48) y todo el backlog (SCRUM-26, 29, 32, 40, 49) se presentan después del 16/11 en la tesis como requisitos nuevos. Se codean en la rama `tesis`, no en `dev`, para que `main` tenga solo lo que se entrega el 16/11 (ver sección 4). En Jira llevan la etiqueta `tesis`.
 
-**Dependencia clave:** la Persona B puede maquetar sin la API, pero para conectar pantallas necesita SCRUM-17, 18 y 20. Objetivo: base técnica en `main` el **jueves 29/10**.
+**Dependencia clave:** la Persona B y la Persona C pueden maquetar sin la API, pero para conectar pantallas necesitan SCRUM-15 (`provideHttpClient`), 17, 18, 19 y 20. Objetivo: base técnica en `dev` el **jueves 29/10**. Mientras tanto se usan los nombres acordados de la sección 6.1.
+
+**SCRUM-39 (Ruteo) va última en el Sprint 1:** arma el ruteo base (rutas de calcular, historial, favoritos, login y registro, `canActivate` con los guards y redirecciones). Depende de SCRUM-19, 21 y 23. Las rutas de las pantallas siguientes (perfil, admin, etc.) las agrega cada tarjeta en su PR.
+
+### 3.1 Tarjetas de la Persona C (panel de administración)
+
+Son las pantallas 11 a 14 del boceto. **SCRUM-41 y 42 van a `dev`** (se entregan el 16/11); **SCRUM-43, 44 y 49 van a `tesis`**. Todas son **solo ADMIN**: rutas bajo `/admin/...` con `canActivate: [adminGuard]`. Referencia de cómo lo resuelve la app anterior: `AdminDashboard.tsx` y `AuditView.tsx` de frontend1. Los endpoints exactos y los DTOs están en el Swagger.
+
+| Tarjeta | Qué pide | Back | Ruta y carpeta |
+|---|---|---|---|
+| SCRUM-41 Tarifa (RF19) | Ver y modificar bajada de bandera, ficha (día/noche) y metros por ficha, mostrando los valores actuales | ✅ `GET` y `PUT /admin/tarifas/taxi` | `/admin/tarifa` · `pages/admin-tarifa` |
+| SCRUM-42 Gestión de usuarios | Buscar por username o email, ver la info y eliminar | ✅ `GET /usuarios/buscar?query=` y `DELETE /usuarios/{id}` | `/admin/usuarios` · `pages/admin-usuarios` |
+| SCRUM-43 Informe usuarios por mes | Gráfico de línea con filtro por año | ❌ Falta `GET /admin/estadisticas/usuarios-por-mes?anio` (y que `Usuario` guarde fecha de alta). Maquetar con datos de prueba | `/admin/informe-usuarios` · `pages/admin-informe-usuarios` |
+| SCRUM-44 Informe transporte más elegido | Torta con filtro por fechas | ❌ Falta `GET /admin/estadisticas/transporte-elegido?desde&hasta`. Maquetar con datos de prueba | `/admin/informe-transporte` · `pages/admin-informe-transporte` |
+| SCRUM-49 Auditoría de búsquedas | Lista de búsquedas con filtros por usuario, origen, destino, fechas y favorito | ✅ `GET /viajes/admin/auditoria` (paginado: `page`, `size`) | `/admin/auditoria` · `pages/admin-auditoria` |
+
+- **Gráficos (43 y 44):** hace falta una librería de gráficos. La elige la Persona C y la anota en el Registro de decisiones antes de instalarla (que sea simple, por ejemplo Chart.js).
+- **Servicios:** uno por dominio en `services/` con `@Service()` (`TarifaService`, `UsuariosService`, `InformesService`, `AuditoriaService`), `httpResource` para leer y `HttpClient` para guardar o borrar (ver sección 6).
+- **Ruteo:** cada uno agrega sus rutas en `app.routes.ts` en el PR de su pantalla (cambio chico, ver sección 4).
 
 ## 4. Cómo se trabaja con Git
 
@@ -51,7 +71,10 @@ Diferidas (no se hacen salvo que sobre tiempo): SCRUM-26, 29, 32, 40.
 - **Nadie pushea directo a `dev` ni a `main`.** Única excepción: cambios solo de documentación (este archivo), si el otro está de acuerdo.
 - Vercel arma una preview de cada PR, pero ahí el mapa y la API no andan (la clave de Maps y el CORS del back solo aceptan `localhost` y la URL de producción): se prueba en `localhost` antes de pedir revisión.
 - **Antes de empezar una tarjeta:** `git checkout dev && git pull` y recién ahí crear la rama.
+- **Rama `tesis` (Sprint 3 y backlog):** esas tarjetas salen de `tesis` (`git checkout tesis && git pull`) y su PR va a `tesis`, **nunca a `dev`**. Una vez por semana se trae lo nuevo de `dev` (`git checkout tesis && git merge dev`) para que no se acumulen conflictos. Después del 16/11: PR `tesis` → `dev` → `main`.
+- **Back de la tesis:** los cambios del back para la tesis (SCRUM-45 a 48 y los endpoints de los informes) también van en una rama `tesis` del repo del back, porque el back se despliega solo al pushear a su `main`. Para probarlos hay que levantar el back aparte (en la compu o en otro despliegue).
 - **Archivos compartidos** (`app.routes.ts`, `styles.css`): cambios chicos, en el mismo PR de la pantalla que los necesita. Si hay conflicto, lo resuelve el que mergea segundo.
+- **Rutas:** cada tarjeta que crea una pantalla agrega **su propia ruta** en `app.routes.ts` dentro de su PR (con `canActivate: [authGuard]` o `[adminGuard]` si ya existen los guards). SCRUM-39 solo arma el ruteo base del Sprint 1 (ver sección 3).
 - Fines de línea: los normaliza `.gitattributes` (Windows/Linux no generan cambios falsos).
 
 ## 5. Estructura de carpetas
@@ -92,6 +115,22 @@ Seguimos el estilo del modelo de parcial de la cátedra. Ejemplo de formulario: 
 | Estilos | CSS propio y simple en cada componente. En `styles.css` solo los estilos base, unas pocas variables de color y las clases comunes `.card`, `.btn-primary`, `.input`, `.label` | Las pantallas son simples; no hace falta Tailwind ni un sistema de diseño |
 | Responsive | Mobile first: estilos base para celular y `@media (min-width: 768px)` para PC/horizontal. Un solo punto de corte | El boceto es mobile; con dos tamaños se cubre celular y PC |
 | Secretos | Nada de claves en el repo salvo la de Maps del front (restringida por dominio) | RNF08 y RNF09 |
+### 6.1 Nombres acordados (sesión y rutas)
+
+Acordados el 28/10 para poder trabajar en paralelo antes de que la sesión (SCRUM-18) y los guards (SCRUM-19) estén en `dev`. Mientras no estén, se usan valores de prueba con un `// TODO SCRUM-18` y después se cambia esa línea.
+
+| Qué | Nombre |
+|---|---|
+| Servicio de sesión | `SesionService` en `services/sesion.service.ts` |
+| Usuario logueado | signal `usuario()` → `Usuario \| null` (los campos salen de lo que devuelve `POST /usuarios/login`) |
+| ¿Está logueado? | `logueado()` (computed) |
+| ¿Es admin? | `esAdmin()` (computed, según el rol) |
+| Cerrar sesión | `cerrarSesion()` |
+| Guards | `authGuard` y `adminGuard` en `guards/` |
+| Rutas de la Persona A | `/login`, `/registro` |
+| Rutas de la Persona B | `/calcular`, `/historial`, `/favoritos`, `/perfil`, `/estadisticas` |
+| Rutas de la Persona C | `/admin/tarifa`, `/admin/usuarios`, `/admin/informe-usuarios`, `/admin/informe-transporte`, `/admin/auditoria` |
+
 ## 7. Diseño
 
 **Dos fuentes, cada una para una cosa:**
@@ -126,6 +165,10 @@ Seguimos el estilo del modelo de parcial de la cátedra. Ejemplo de formulario: 
 | 28/10 | Aníbal | Componente aparte solo si se usa en 2 o más pantallas o tiene lógica compleja | Se probó con `route-form` y `location-input` y era demasiado para algo de una sola pantalla; se borraron |
 | 28/10 | Equipo | Rama `dev` de integración: las tarjetas van por PR a `dev`; `main` solo recibe `dev` al cerrar sprint | `main` es producción en Vercel: ahí solo entra lo ya probado |
 | 28/10 | Equipo | Los cambios solo de documentación (`CLAUDE.md`) pueden ir directo a `dev` si el otro está de acuerdo | No hace falta revisión de código para texto |
+| 28/10 | Equipo | Se suma la Persona C: toma SCRUM-41 y 42 (eran de la Persona A), 43 y 44 (eran de la Persona B) y 49 | Repartir el panel de administración, que está separado del resto, para llegar a la pre-entrega |
+| 28/10 | Equipo | Nombres acordados para la sesión, los guards y las rutas (sección 6.1) | Trabajar en paralelo sin esperar la base técnica y sin servicios duplicados |
+| 29/10 | Equipo | SCRUM-39 arma solo el ruteo base del Sprint 1; cada pantalla nueva agrega su ruta en su propio PR | Si la 39 incluyera todas las rutas, dependería de pantallas del Sprint 2 y de la tesis |
+| 28/10 | Equipo | Todo el Sprint 3 y el backlog se presentan después del 16/11 en la tesis: se codean en la rama `tesis` (front y back) y no entran a `dev` ni a `main` hasta después de la entrega | No hay tiempo para entregarlos el 16/11; así `main` tiene solo lo que se entrega. El cambio de alcance se registra en el dossier |
 
 ## 9. Estado de las tarjetas
 
@@ -133,4 +176,5 @@ Se mira en Jira. Acá solo se anota lo que los demás tienen que saber para segu
 
 | Fecha | Tarjeta | Novedad para el resto |
 |---|---|---|
-| | | |
+| 28/10 | SCRUM-18/19 | Nombres de la sesión y los guards acordados con Agustín (sección 6.1). Hasta que estén en `dev`, usar valores de prueba con `// TODO SCRUM-18` |
+| 28/10 | SCRUM-27 | `components/mensaje-error` disponible para mostrar errores de formulario (cuando se mergee SCRUM-27) |
