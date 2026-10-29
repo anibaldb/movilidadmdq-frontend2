@@ -44,6 +44,8 @@ Exposición: 17/11.
 
 **Dependencia clave:** la Persona B y la Persona C pueden maquetar sin la API, pero para conectar pantallas necesitan SCRUM-15 (`provideHttpClient`), 17, 18, 19 y 20. Objetivo: base técnica en `dev` el **jueves 29/10**. Mientras tanto se usan los nombres acordados de la sección 6.1.
 
+**SCRUM-39 (Ruteo) va última en el Sprint 1:** arma el ruteo base (rutas de calcular, historial, favoritos, login y registro, `canActivate` con los guards y redirecciones). Depende de SCRUM-19, 21 y 23. Las rutas de las pantallas siguientes (perfil, admin, etc.) las agrega cada tarjeta en su PR.
+
 ### 3.1 Tarjetas de la Persona C (panel de administración)
 
 Son las pantallas 11 a 14 del boceto. **SCRUM-41 y 42 van a `dev`** (se entregan el 16/11); **SCRUM-43, 44 y 49 van a `tesis`**. Todas son **solo ADMIN**: rutas bajo `/admin/...` con `canActivate: [adminGuard]`. Referencia de cómo lo resuelve la app anterior: `AdminDashboard.tsx` y `AuditView.tsx` de frontend1. Los endpoints exactos y los DTOs están en el Swagger.
@@ -72,6 +74,7 @@ Son las pantallas 11 a 14 del boceto. **SCRUM-41 y 42 van a `dev`** (se entregan
 - **Rama `tesis` (Sprint 3 y backlog):** esas tarjetas salen de `tesis` (`git checkout tesis && git pull`) y su PR va a `tesis`, **nunca a `dev`**. Una vez por semana se trae lo nuevo de `dev` (`git checkout tesis && git merge dev`) para que no se acumulen conflictos. Después del 16/11: PR `tesis` → `dev` → `main`.
 - **Back de la tesis:** los cambios del back para la tesis (SCRUM-45 a 48 y los endpoints de los informes) también van en una rama `tesis` del repo del back, porque el back se despliega solo al pushear a su `main`. Para probarlos hay que levantar el back aparte (en la compu o en otro despliegue).
 - **Archivos compartidos** (`app.routes.ts`, `styles.css`): cambios chicos, en el mismo PR de la pantalla que los necesita. Si hay conflicto, lo resuelve el que mergea segundo.
+- **Rutas:** cada tarjeta que crea una pantalla agrega **su propia ruta** en `app.routes.ts` dentro de su PR (con `canActivate: [authGuard]` o `[adminGuard]` si ya existen los guards). SCRUM-39 solo arma el ruteo base del Sprint 1 (ver sección 3).
 - Fines de línea: los normaliza `.gitattributes` (Windows/Linux no generan cambios falsos).
 
 ## 5. Estructura de carpetas
@@ -164,6 +167,7 @@ Acordados el 28/10 para poder trabajar en paralelo antes de que la sesión (SCRU
 | 28/10 | Equipo | Los cambios solo de documentación (`CLAUDE.md`) pueden ir directo a `dev` si el otro está de acuerdo | No hace falta revisión de código para texto |
 | 28/10 | Equipo | Se suma la Persona C: toma SCRUM-41 y 42 (eran de la Persona A), 43 y 44 (eran de la Persona B) y 49 | Repartir el panel de administración, que está separado del resto, para llegar a la pre-entrega |
 | 28/10 | Equipo | Nombres acordados para la sesión, los guards y las rutas (sección 6.1) | Trabajar en paralelo sin esperar la base técnica y sin servicios duplicados |
+| 29/10 | Equipo | SCRUM-39 arma solo el ruteo base del Sprint 1; cada pantalla nueva agrega su ruta en su propio PR | Si la 39 incluyera todas las rutas, dependería de pantallas del Sprint 2 y de la tesis |
 | 28/10 | Equipo | Todo el Sprint 3 y el backlog se presentan después del 16/11 en la tesis: se codean en la rama `tesis` (front y back) y no entran a `dev` ni a `main` hasta después de la entrega | No hay tiempo para entregarlos el 16/11; así `main` tiene solo lo que se entrega. El cambio de alcance se registra en el dossier |
 
 ## 9. Estado de las tarjetas
