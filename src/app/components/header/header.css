@@ -2,27 +2,42 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  background-color: var(--color-surface);
+  gap: 12px;
+  padding: 24px 16px 16px;
 }
 
 .app-name {
   margin: 0;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--color-bg);
-  background-color: var(--color-primary-light);
-  padding: 7px 20px;
-  border-radius: 999px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
+/* En celular el saludo no entra al lado de los botones */
 .greeting {
-  font-size: 0.85rem;
+  display: none;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .app-name {
+    font-size: 1.875rem;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .greeting {
+    display: inline;
+  }
 }
