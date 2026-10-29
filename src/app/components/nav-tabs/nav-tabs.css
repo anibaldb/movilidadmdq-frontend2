@@ -1,5 +1,5 @@
 .nav-tabs {
-  display: flex;
+  display: none;
   gap: 4px;
   margin: 0 16px 16px;
   padding: 6px;
@@ -36,4 +36,12 @@
 .tab.active {
   background-color: var(--color-primary);
   color: #ffffff;
+}
+
+/* Las pestañas son solo para PC; en celular está el menú hamburguesa */
+@media (min-width: 768px) {
+  .nav-tabs {
+    display: flex;
+    margin: 0 32px 16px;
+  }
 }
