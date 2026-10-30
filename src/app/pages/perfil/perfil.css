@@ -1,0 +1,59 @@
+/* ---------- Celular (por defecto) ---------- */
+.perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subtitulo {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.descripcion {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mensaje verde cuando se guardó bien */
+.guardado {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+/* ---------- PC ---------- */
+@media (min-width: 768px) {
+  .perfil {
+    padding: 0 32px 32px;
+  }
+
+  .titulo {
+    font-size: 1.875rem;
+  }
+}

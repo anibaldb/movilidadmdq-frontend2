@@ -1,0 +1,37 @@
+<section class="perfil">
+  <h2 class="titulo">Tu perfil</h2>
+
+  <form class="card formulario" (submit)="guardar($event)">
+    <div>
+      <h3 class="subtitulo">Edita tu perfil</h3>
+      <p class="descripcion">Actualiza tu información personal</p>
+    </div>
+
+    <div class="campo">
+      <label class="label" for="username">Nombre de usuario</label>
+      <input id="username" class="input" type="text" [formField]="formPerfil.username" />
+      <app-mensaje-error [campo]="formPerfil.username()" />
+    </div>
+
+    <div class="campo">
+      <label class="label" for="email">Email</label>
+      <input id="email" class="input" type="email" [formField]="formPerfil.email" />
+      <app-mensaje-error [campo]="formPerfil.email()" />
+    </div>
+
+    <div class="campo">
+      <label class="label" for="password">Nueva contraseña</label>
+      <input id="password" class="input" type="password" autocomplete="new-password"
+             [formField]="formPerfil.password" placeholder="Déjala vacía para no cambiarla" />
+      <app-mensaje-error [campo]="formPerfil.password()" />
+    </div>
+
+    <button class="btn-primary" type="submit" [disabled]="formPerfil().invalid()">
+      Guardar cambios
+    </button>
+
+    @if (mensajeGuardado()) {
+      <p class="guardado">{{ mensajeGuardado() }}</p>
+    }
+  </form>
+</section>
