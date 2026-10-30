@@ -1,41 +1,39 @@
 <div class="calcular-layout">
-  <div class="calcular-sidebar">
 
-    <form class="formulario" (submit)="calcular($event)">
+  <form class="formulario" (submit)="calcular($event)">
 
-      <div class="campo">
-        <div class="campo-input"
-             [class.con-error]="formRuta.origen().touched() && formRuta.origen().invalid()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
-            <circle cx="12" cy="9" r="2.5" />
-          </svg>
-          <input type="text" [formField]="formRuta.origen" placeholder="¿De dónde sales?" />
-        </div>
-        <app-mensaje-error [campo]="formRuta.origen()" />
+    <div class="campo">
+      <div class="campo-input"
+           [class.con-error]="formRuta.origen().touched() && formRuta.origen().invalid()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
+          <circle cx="12" cy="9" r="2.5" />
+        </svg>
+        <input type="text" [formField]="formRuta.origen" placeholder="¿De dónde sales?" />
       </div>
+      <app-mensaje-error [campo]="formRuta.origen()" />
+    </div>
 
-      <div class="campo">
-        <div class="campo-input"
-             [class.con-error]="formRuta.destino().touched() && formRuta.destino().invalid()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
-            <circle cx="12" cy="9" r="2.5" />
-          </svg>
-          <input type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?" />
-        </div>
-        <app-mensaje-error [campo]="formRuta.destino()" />
+    <div class="campo">
+      <div class="campo-input"
+           [class.con-error]="formRuta.destino().touched() && formRuta.destino().invalid()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z" />
+          <circle cx="12" cy="9" r="2.5" />
+        </svg>
+        <input type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?" />
       </div>
+      <app-mensaje-error [campo]="formRuta.destino()" />
+    </div>
 
-      <button class="btn-primary" type="submit" [disabled]="formRuta().invalid()">
-        Calcular
-      </button>
-    </form>
-
-    <app-ride-options [hasRoute]="hasRoute()" />
-  </div>
+    <button class="btn-primary" type="submit" [disabled]="formRuta().invalid()">
+      Calcular
+    </button>
+  </form>
 
   <div class="calcular-map">
-    <app-map [hasRoute]="hasRoute()" />
+    <app-map [origen]="rutaBuscada()?.origen" [destino]="rutaBuscada()?.destino" />
   </div>
+
+  <app-ride-options [hasRoute]="hasRoute()" />
 </div>
