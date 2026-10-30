@@ -101,3 +101,12 @@ textarea {
   letter-spacing: 0.1em;
   color: var(--color-text-faint);
 }
+
+/* Lista de sugerencias del autocompletado de Google */
+.pac-container {
+  margin-top: 6px;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: inherit;
+}
