@@ -1,7 +1,7 @@
 import { TipoTransporte } from "./tarifa-model";
 
 export interface Viaje{
-    id: 123,
+    id: number,
     origen:string,
     destino:string,
     distanciaEnMetros:number,
@@ -9,7 +9,7 @@ export interface Viaje{
     precioTaxi:number,
     precioUber:number,
     precioDidi:number,
-    tipoElegido:TipoTransporte,
+    tipoElegido:TipoTransporte | null,
     fechaHora:string,
     favorito:boolean,
     username:string,

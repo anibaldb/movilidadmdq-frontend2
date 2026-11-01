@@ -1,1 +1,23 @@
-<p>historial works!</p>
+<section class="historial">
+  <h2 class="titulo">Tu historial</h2>
+
+  @for (viaje of viajes(); track viaje.id) {
+    <article class="card viaje">
+      <p class="direccion">{{ viaje.origen }}</p>
+      <p class="direccion">{{ viaje.destino }}</p>
+
+      <div class="datos">
+        <span>Fecha: {{ viaje.fechaHora | date: 'dd/MM/yy' }}</span>
+        <span class="precio">{{ etiquetaPrecio(viaje) }}</span>
+        <span>{{ viaje.distanciaEnMetros / 1000 | number: '1.1-1' }} km</span>
+      </div>
+
+      <div class="acciones">
+        <button type="button" class="btn-repetir" (click)="repetir(viaje)">Repetir</button>
+        <button type="button" class="btn-borrar" (click)="borrar(viaje.id)">Borrar</button>
+      </div>
+    </article>
+  } @empty {
+    <p class="vacio">Todavía no calculaste ningún viaje.</p>
+  }
+</section>
