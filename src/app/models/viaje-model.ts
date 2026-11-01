@@ -27,7 +27,7 @@ export type ViajeHistorial = Omit<Viaje, 'cantidad'>
 
 export interface DireccionFavorita{
     id:number,
-    nombre:string,
+    nombre:string | null,
     direccion:string,
     placeId:string,
     lat:number,
