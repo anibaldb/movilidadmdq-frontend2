@@ -62,4 +62,11 @@ export class Historial {
     // TODO SCRUM-18: usuarioService.eliminarUsuarioHistorial(idUsuario, id).subscribe(() => historial.reload())
     this.viajes.update((lista) => lista.filter((v) => v.id !== id));
   }
+
+    marcarFavorito(id: number) {
+    // TODO SCRUM-18: viajeService.toggleFavorito(id).subscribe(() => historial.reload())
+    this.viajes.update((lista) =>
+      lista.map((v) => (v.id === id ? { ...v, favorito: !v.favorito } : v)),
+    );
+  }
 }
