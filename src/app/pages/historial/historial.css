@@ -80,6 +80,47 @@
   color: var(--color-text-muted);
 }
 
+/* Direcciones a la izquierda, estrella a la derecha */
+.encabezado {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.direcciones {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-estrella {
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-faint);
+  cursor: pointer;
+}
+
+.btn-estrella svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Favorito: estrella amarilla y rellena */
+.btn-estrella.activa {
+  color: #f59e0b;
+}
+
+
+.error {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
 /* ---------- PC ---------- */
 @media (min-width: 768px) {
   .historial {
