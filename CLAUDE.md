@@ -24,11 +24,10 @@ El back ya acepta pedidos (CORS) desde `localhost:4200` y desde la URL de Vercel
 
 | Etapa | Fechas | Objetivo |
 |---|---|---|
-| Sprint 1 | 27/10 – 01/11 | Base técnica, login y búsqueda |
-| Sprint 2 | 02/11 – 06/11 | Pantallas del cliente y panel admin (tarifa y usuarios). Pre-entrega (06/11) |
-| Cierre | 09/11 – 14/11 | Terminar lo que falte del Sprint 2, desplegar y probar. **14/11: Sprints 1 y 2 terminados y en `main`** |
-| Entrega final | 16/11 | Se entrega lo de los Sprints 1 y 2 (alcanza para la entrega) |
-| Sprint 3 y backlog | desde 09/11, en la rama `tesis` | Se codean pero **no se entregan**: se presentan en la tesis como requisitos nuevos (ver sección 4) |
+| Sprint 1 | 27/10 – 05/11 | Base técnica, login, búsqueda y pantallas del cliente |
+| Sprint 2 | 06/11 – 14/11 | Comparador y estados, panel admin (tarifa y usuarios), Login con Google. **14/11: todo desplegado y en `main`** |
+| Entrega final | 16/11 | Se entrega lo de los Sprints 1 y 2. **No hay pre-entrega** |
+| Sprint 3 y backlog | después del 16/11, en la rama `tesis` | Se codean pero **no se entregan**: se presentan en la tesis como requisitos nuevos (ver sección 4) |
 
 Exposición: 17/11.
 
@@ -36,15 +35,15 @@ Exposición: 17/11.
 
 | Sprint | Persona A (Agustín) | Persona B (Aníbal) | Persona C |
 |---|---|---|---|
-| 1 | SCRUM-15 Setup, 17 ApiService, 18 Sesión JWT, 19 Guards, 20 Entornos, 21 Iniciar sesión, 23 Crear cuenta | SCRUM-16 Estilo global, 38 Menú, 39 Ruteo, 27 Formulario, 28 Autocompletado y GPS, 33 Mapa | — |
-| 2 | SCRUM-30 Tarjetas comparativas, 31 Estados | SCRUM-34 Historial, 35 Marcar favorita, 36 Direcciones favoritas, 25 Perfil, 22 Login con Google | SCRUM-41 Tarifa, 42 Gestión de usuarios |
-| 3 | SCRUM-45 a 48 (back de RF44–RF47), 24 Pantalla recuperar contraseña | SCRUM-37 Estadísticas | SCRUM-43 Informe usuarios por mes, 44 Informe transporte más elegido, 49 Auditoría de búsquedas (del backlog) |
+| 1 | SCRUM-15 Setup, 17 ApiService, 18 Sesión JWT, 19 Guards, 20 Entornos, 21 Iniciar sesión, 23 Crear cuenta | SCRUM-16 Estilo global, 38 Menú, 39 Ruteo, 27 Formulario, 28 Autocompletado y GPS, 33 Mapa, 25 Perfil, 34 Historial, 35 Marcar favorita, 36 Direcciones favoritas | — |
+| 2 | SCRUM-30 Tarjetas comparativas, 31 Estados | SCRUM-22 Login con Google | SCRUM-41 Tarifa, 42 Gestión de usuarios |
+| Tesis | SCRUM-45 a 48 (back de RF44–RF47), 24 Pantalla recuperar contraseña | SCRUM-37 Estadísticas | SCRUM-43 Informe usuarios por mes, 44 Informe transporte más elegido, 49 Auditoría de búsquedas (del backlog) |
 
 **Rama `tesis`:** todo el Sprint 3 (SCRUM-24, 37, 43, 44, 45 a 48) y todo el backlog (SCRUM-26, 29, 32, 40, 49) se presentan después del 16/11 en la tesis como requisitos nuevos. Se codean en la rama `tesis`, no en `dev`, para que `main` tenga solo lo que se entrega el 16/11 (ver sección 4). En Jira llevan la etiqueta `tesis`.
 
-**Dependencia clave:** la Persona B y la Persona C pueden maquetar sin la API, pero para conectar pantallas necesitan SCRUM-15 (`provideHttpClient`), 17, 18, 19 y 20. Objetivo: base técnica en `dev` el **jueves 29/10**. Mientras tanto se usan los nombres acordados de la sección 6.1.
+**Dependencia clave:** la Persona B y la Persona C pueden maquetar sin la API, pero para conectar pantallas necesitan SCRUM-15 (`provideHttpClient`), 17, 18, 19 y 20. La base técnica está en `dev` desde el **06/11**: las pantallas ya se conectan a la API con la sesión y los servicios (ver sección 9).
 
-**SCRUM-39 (Ruteo) va última en el Sprint 1:** arma el ruteo base (rutas de calcular, historial, favoritos, login y registro, `canActivate` con los guards y redirecciones). Depende de SCRUM-19, 21 y 23. Las rutas de las pantallas siguientes (perfil, admin, etc.) las agrega cada tarjeta en su PR.
+**SCRUM-39 (Ruteo, terminada el 06/11):** arma el ruteo base (rutas de calcular, historial, favoritos, login y registro, `canActivate` con los guards y redirecciones). Depende de SCRUM-19, 21 y 23. Las rutas de las pantallas siguientes (perfil, admin, etc.) las agrega cada tarjeta en su PR.
 
 ### 3.1 Tarjetas de la Persona C (panel de administración)
 
@@ -123,7 +122,7 @@ Acordados el 28/10 para poder trabajar en paralelo antes de que la sesión (SCRU
 |---|---|
 | Servicio de sesión | `SesionService` en `services/sesion.service.ts` |
 | Usuario logueado | signal `usuario()` → `Usuario \| null` (los campos salen de lo que devuelve `POST /usuarios/login`) |
-| ¿Está logueado? | `logueado()` (computed) |
+| ¿Está logueado? | `logueado()`: **método**, no `computed`, porque además mira si el token venció (la hora no es una signal) |
 | ¿Es admin? | `esAdmin()` (computed, según el rol) |
 | Cerrar sesión | `cerrarSesion()` |
 | Guards | `authGuard` y `adminGuard` en `guards/` |
@@ -170,6 +169,10 @@ Acordados el 28/10 para poder trabajar en paralelo antes de que la sesión (SCRU
 | 28/10 | Equipo | Nombres acordados para la sesión, los guards y las rutas (sección 6.1) | Trabajar en paralelo sin esperar la base técnica y sin servicios duplicados |
 | 29/10 | Equipo | SCRUM-39 arma solo el ruteo base del Sprint 1; cada pantalla nueva agrega su ruta en su propio PR | Si la 39 incluyera todas las rutas, dependería de pantallas del Sprint 2 y de la tesis |
 | 28/10 | Equipo | Todo el Sprint 3 y el backlog se presentan después del 16/11 en la tesis: se codean en la rama `tesis` (front y back) y no entran a `dev` ni a `main` hasta después de la entrega | No hay tiempo para entregarlos el 16/11; así `main` tiene solo lo que se entrega. El cambio de alcance se registra en el dossier |
+| 01/11 | Equipo | Cronograma nuevo: Sprint 1 hasta 05/11, Sprint 2 del 06/11 al 14/11, entrega 16/11. Sin pre-entrega; el Sprint 3 pasa al backlog (tesis) | Más tiempo para la base técnica y para conectar las pantallas |
+| 06/11 | Equipo | Calcular pide login (`authGuard`). Header y pestañas solo con sesión iniciada; Login y Registro sin header | Así estaba planteado; el back pide login para calcular. Usar la app sin cuenta queda para más adelante (requiere cambiar el back) |
+| 06/11 | Equipo | `logueado()` queda como método y no `computed` | Un computed no se entera de que el token venció, porque la hora no es una signal |
+| 06/11 | Equipo | Login con usuario o email: para después de la entrega | Hoy el back solo busca por username; el cambio es en el back |
 
 ## 9. Estado de las tarjetas
 
@@ -177,5 +180,8 @@ Se mira en Jira. Acá solo se anota lo que los demás tienen que saber para segu
 
 | Fecha | Tarjeta | Novedad para el resto |
 |---|---|---|
-| 28/10 | SCRUM-18/19 | Nombres de la sesión y los guards acordados con Agustín (sección 6.1). Hasta que estén en `dev`, usar valores de prueba con `// TODO SCRUM-18` |
-| 28/10 | SCRUM-27 | `components/mensaje-error` disponible para mostrar errores de formulario (cuando se mergee SCRUM-27) |
+| 06/11 | SCRUM-18/19/21/23 | Sesión, interceptor, guards, login y registro en `dev`. En una pantalla con `authGuard`: `inject(SesionService).usuario()!.id` para el id del usuario; el token lo agrega solo el interceptor |
+| 06/11 | SCRUM-25/34/35/36 | Perfil, Historial (con favorito) y Direcciones favoritas conectadas a la API. Patrón: `httpResource` del servicio para leer (estados con `error()` y `hasValue()`) y `subscribe` + `reload()` para escribir |
+| 06/11 | SCRUM-25 | `SesionService.actualizarUsuario({ email })` actualiza los datos de la sesión sin tocar el token. Si cambia el username, se cierra la sesión (el token es del usuario viejo) |
+| 06/11 | SCRUM-39 | Login vuelve a `returnUrl`; login y registro no envían el formulario vacío. Los modelos de SCRUM-17 se corrigieron en mis PR (`Viaje.id: number`, `tipoElegido` y `DireccionFavorita.nombre` pueden ser `null`, `obtenerHistorial` devuelve lista) |
+| 28/10 | SCRUM-27 | `components/mensaje-error` para mostrar el primer error de un campo de formulario |
