@@ -16,10 +16,6 @@ export class UsuarioService {
         return this.http.delete<void>(`${environment.apiUrl}/usuarios/${id}`)
     }
 
-    registrarUsuario(datos: UsuarioRegistro){
-        return this.http.post<UsuarioAuth>(`${environment.apiUrl}/usuarios/registro`,datos)
-    }
-
     obtenerViajeFrecuente(id: number){
         return httpResource<ViajeFrecuente>(() => ({
             url:`${environment.apiUrl}/usuarios/${id}/viaje-frecuente`

@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { SesionService } from '../../../services/sesion.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UsuarioLogin } from '../../../models/usuario-model';
 import { form, FormField, required } from '@angular/forms/signals';
 import { MensajeError } from '../../../components/mensaje-error/mensaje-error';
 
 @Component({
-  imports: [FormField, MensajeError],
+  imports: [FormField, MensajeError, RouterLink],
   selector: 'app-log-in',
   styleUrl: './log-in.css',
   templateUrl: './log-in.html',
