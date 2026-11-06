@@ -42,6 +42,13 @@ export class SesionService {
         }
     }
 
+    // Actualiza datos del usuario guardado (ej.: después de editar el perfil), sin tocar el token
+    actualizarUsuario(datos: Partial<Pick<UsuarioAuth, 'username' | 'email'>>): void {
+        const actual = this._usuario()
+        if (!actual) return
+        this.guardarSesion({ ...actual, ...datos })
+    }
+
     private guardarSesion(usuario: UsuarioAuth): void {
         this.guardar(environment.tokenKey, JSON.stringify(usuario))
         this._usuario.set(usuario)
