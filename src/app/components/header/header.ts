@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconButton } from '../../components/icon-button/icon-button';
+import { SesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +10,10 @@ import { IconButton } from '../../components/icon-button/icon-button';
   styleUrl: './header.css',
 })
 export class Header {
+  private readonly sesion = inject(SesionService)
   // TODO SCRUM-18: reemplazar por sesion.usuario() y sesion.esAdmin() cuando esté el SesionService
-  readonly nombreUsuario = signal('Viajero');
-  readonly esAdmin = signal(false);
+  readonly nombreUsuario = computed(() => this.sesion.usuario()?.username ?? 'Viajero');
+  readonly esAdmin = this.sesion.esAdmin;
 
   // ¿El menú desplegable está abierto?
   readonly menuAbierto = signal(false);
@@ -26,6 +28,6 @@ export class Header {
 
   cerrarSesion() {
     this.cerrarMenu();
-    // TODO SCRUM-18: this.sesion.cerrarSesion();
+    this.sesion.cerrarSesion();
   }
 }

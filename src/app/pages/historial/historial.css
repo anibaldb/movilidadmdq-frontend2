@@ -1,0 +1,92 @@
+/* ---------- Celular (por defecto) ---------- */
+.historial {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+.viaje {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+/* Origen y destino en cajitas grises, como los campos de Calcular */
+.direccion {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background-color: var(--color-surface-soft);
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+/* Fecha y km a la izquierda, precio a la derecha */
+.datos {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.precio {
+  text-align: right;
+  color: var(--color-text);
+}
+
+.acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.btn-repetir,
+.btn-borrar {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-repetir {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+/* Rosa suave con letra roja, como el boceto */
+.btn-borrar {
+  background-color: #fee2e2;
+  color: var(--color-danger);
+}
+
+.vacio {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* ---------- PC ---------- */
+@media (min-width: 768px) {
+  .historial {
+    padding: 0 32px 32px;
+  }
+
+  .titulo {
+    font-size: 1.875rem;
+  }
+}
