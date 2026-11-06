@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { SesionService } from '../../../services/sesion.service';
-import { Router, RouterLink } from '@angular/router';
+
 import { UsuarioLogin } from '../../../models/usuario-model';
 import { form, FormField, required } from '@angular/forms/signals';
 import { MensajeError } from '../../../components/mensaje-error/mensaje-error';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   imports: [FormField, MensajeError, RouterLink],
@@ -14,6 +15,7 @@ import { MensajeError } from '../../../components/mensaje-error/mensaje-error';
 export class LogIn {
   private readonly sesion = inject(SesionService)
   private readonly router = inject(Router)
+  private readonly route = inject(ActivatedRoute)
 
   readonly showPassword = signal(false)
 
@@ -26,11 +28,17 @@ export class LogIn {
     required(ruta.password, {message: 'La contraseña es obligatorio'})
   })
 
-  enviar(event:Event){
+    enviar(event: Event) {
     event.preventDefault()
+    if (this.loginForm().invalid()) return
+
     this.sesion.login(this.model()).subscribe({
-      next: () => this.router.navigate(['/calcular']),
-      error: (e) => this.error.set(e.error.message)
+      next: () => {
+        // Vuelve a la página que pidió antes del login (la manda el authGuard en ?returnUrl=)
+        const volverA = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/calcular'
+        this.router.navigateByUrl(volverA)
+      },
+      error: (e) => this.error.set(e.error?.message ?? 'No se pudo iniciar sesión. Probá de nuevo.')
     })
   }
 }

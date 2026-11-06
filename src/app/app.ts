@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
 import { NavTabs } from './components/nav-tabs/nav-tabs';
+import { SesionService } from './services/sesion.service';
 
 @Component({
   imports: [RouterOutlet, Header, NavTabs],
@@ -10,5 +11,5 @@ import { NavTabs } from './components/nav-tabs/nav-tabs';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('FrontendMovilidadMDP');
+  protected readonly sesion = inject(SesionService);
 }
