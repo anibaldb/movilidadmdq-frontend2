@@ -30,6 +30,7 @@ export class Registro {
 
   enviar(event:Event){
     event.preventDefault()
+    if (this.registroForm().invalid()) return
     this.sesion.registrar(this.model()).subscribe({
       next: () => this.router.navigate(['/login']),
       error: (e) => this.error.set(e.error.message)

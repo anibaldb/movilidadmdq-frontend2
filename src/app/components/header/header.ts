@@ -11,7 +11,7 @@ import { SesionService } from '../../services/sesion.service';
 })
 export class Header {
   private readonly sesion = inject(SesionService)
-  // TODO SCRUM-18: reemplazar por sesion.usuario() y sesion.esAdmin() cuando esté el SesionService
+  
   readonly nombreUsuario = computed(() => this.sesion.usuario()?.username ?? 'Viajero');
   readonly esAdmin = this.sesion.esAdmin;
 
