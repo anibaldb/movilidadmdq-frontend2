@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Service, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { UsuarioLogin, UsuarioAuth } from '../models/usuario-model';
+import { UsuarioLogin, UsuarioAuth, UsuarioRegistro } from '../models/usuario-model';
 import { Observable, tap } from 'rxjs';
 
 interface JwtPayload{
@@ -50,6 +50,10 @@ export class SesionService {
     private limpiarSesion(): void {
         this.borrar(environment.tokenKey)
         this._usuario.set(null)
+    }
+
+    registrar(credenciales: UsuarioRegistro): Observable<UsuarioAuth> {
+        return this.http.post<UsuarioAuth>(`${environment.apiUrl}/usuarios/registro`, credenciales);
     }
 
     private leerUsuario(): UsuarioAuth | null {
