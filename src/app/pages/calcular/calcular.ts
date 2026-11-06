@@ -1,8 +1,9 @@
-import { Component, ElementRef, afterNextRender, computed, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, afterNextRender, computed,inject, signal, viewChild } from '@angular/core';
 import { form, required, pattern, FormField } from '@angular/forms/signals';
 import { Map as AppMap } from '../../components/map/map';
 import { RideOptions } from '../../components/ride-options/ride-options';
 import { MensajeError } from '../../components/mensaje-error/mensaje-error';
+import { ActivatedRoute } from '@angular/router';
 
 type Campo = 'origen' | 'destino';
 // Lo que recibe el mapa: coordenadas o, si no hay, el texto de la dirección
@@ -18,6 +19,8 @@ const LIMITES_MDP = { north: -37.85, south: -38.15, east: -57.45, west: -57.75 }
   styleUrl: './calcular.css',
 })
 export class Calcular {
+
+   private readonly route = inject(ActivatedRoute);
   // 1. Los datos del formulario
   readonly model = signal({ origen: '', destino: '' });
 
@@ -44,6 +47,8 @@ export class Calcular {
   private readonly inputDestino = viewChild.required<ElementRef<HTMLInputElement>>('inputDestino');
 
   constructor() {
+
+    this.cargarViajeRepetido();
     // Cuando la pantalla ya está dibujada, se conecta el autocompletado a los dos inputs
     afterNextRender(async () => {
       await google.maps.importLibrary('places');
@@ -127,5 +132,26 @@ export class Calcular {
   // Coordenadas si eligió una sugerencia; si no, el texto con la ciudad
   private punto(campo: Campo): Punto {
     return this.coords()[campo] ?? `${this.model()[campo].trim()}, Mar del Plata`;
+  }
+
+    // Si viene de "Repetir" en el historial, completa el formulario y traza la ruta
+  private cargarViajeRepetido() {
+    const params = this.route.snapshot.queryParamMap;
+    const origen = params.get('origen');
+    const destino = params.get('destino');
+    if (!origen || !destino) return; // entró normal, sin viaje para repetir
+
+    this.model.set({ origen, destino });
+    this.coords.set({
+      origen: this.coordenadaDe(params.get('origenLat'), params.get('origenLng')),
+      destino: this.coordenadaDe(params.get('destinoLat'), params.get('destinoLng')),
+    });
+    this.rutaBuscada.set({ origen: this.punto('origen'), destino: this.punto('destino') });
+  }
+
+  // En la URL todo es texto: "-38.0024" → número. Si falta alguno, no hay coordenada
+  private coordenadaDe(lat: string | null, lng: string | null): google.maps.LatLngLiteral | null {
+    if (!lat || !lng) return null;
+    return { lat: Number(lat), lng: Number(lng) };
   }
 }

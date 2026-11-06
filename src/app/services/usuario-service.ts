@@ -31,7 +31,7 @@ export class UsuarioService {
     }
 
     obtenerHistorial(id: number){
-        return httpResource<ViajeHistorial>(() => ({
+        return httpResource<ViajeHistorial[]>(() => ({
             url:`${environment.apiUrl}/usuarios/${id}/historial`
         }))
     }
