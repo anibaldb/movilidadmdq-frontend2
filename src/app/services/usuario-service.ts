@@ -1,6 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Service} from '@angular/core';
-import { UsuarioActualizar, UsuarioActualizarResponse, UsuarioLogin, UsuarioRegistro, UsuarioRegistroLoginResponse } from '../models/usuario-model';
+import { UsuarioActualizar, UsuarioActualizarResponse, UsuarioLogin, UsuarioRegistro, UsuarioAuth } from '../models/usuario-model';
 import { environment } from '../../environments/environment';
 import { ViajeFrecuente, ViajeHistorial } from '../models/viaje-model';
 
@@ -14,14 +14,6 @@ export class UsuarioService {
 
     eliminarUsuario(id: number){
         return this.http.delete<void>(`${environment.apiUrl}/usuarios/${id}`)
-    }
-
-    registrarUsuario(datos: UsuarioRegistro){
-        return this.http.post<UsuarioRegistroLoginResponse>(`${environment.apiUrl}/usuarios/registro`,datos)
-    }
-
-    login(datos: UsuarioLogin){
-        return this.http.post<UsuarioRegistroLoginResponse>(`${environment.apiUrl}/usuarios/login`,datos)
     }
 
     obtenerViajeFrecuente(id: number){
