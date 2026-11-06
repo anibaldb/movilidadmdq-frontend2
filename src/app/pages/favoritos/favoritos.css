@@ -123,6 +123,14 @@
   color: var(--color-text-muted);
 }
 
+
+.error {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
 /* ---------- PC ---------- */
 @media (min-width: 768px) {
   .favoritos {
