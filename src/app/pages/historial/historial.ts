@@ -2,28 +2,9 @@ import { Component, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ViajeHistorial } from '../../models/viaje-model';
-
-// TODO SCRUM-18: cuando esté la sesión, reemplazar por
-//   readonly historial = this.usuarioService.obtenerHistorial(this.sesion.usuario()!.id);
-// y usar historial.value() en el HTML
-const VIAJES_DE_PRUEBA: ViajeHistorial[] = [
-  {
-    id: 1, origen: 'Av. Colón 2090', destino: 'Jara 2022',
-    distanciaEnMetros: 5000, tiempoEstimadoMin: 12,
-    precioTaxi: 5800, precioUber: 5200, precioDidi: 5400,
-    tipoElegido: 'UBER', fechaHora: '2026-09-12T18:30:00', favorito: false, username: 'anibal',
-    origenPlaceId: '', origenLat: -38.0024, origenLng: -57.5578,
-    destinoPlaceId: '', destinoLat: -37.9873, destinoLng: -57.5791,
-  },
-  {
-    id: 2, origen: 'Plaza Mitre', destino: 'Estadio José María Minella',
-    distanciaEnMetros: 8200, tiempoEstimadoMin: 18,
-    precioTaxi: 4800, precioUber: 4200, precioDidi: 4100,
-    tipoElegido: null, fechaHora: '2026-10-03T14:30:00', favorito: true, username: 'anibal',
-    origenPlaceId: '', origenLat: -38.0045, origenLng: -57.5452,
-    destinoPlaceId: '', destinoLat: -38.0285, destinoLng: -57.5871,
-  },
-];
+import { SesionService } from '../../services/sesion.service';
+import { UsuarioService } from '../../services/usuario-service';
+import { ViajeService } from '../../services/viaje-service';
 
 @Component({
   selector: 'app-historial',
@@ -32,9 +13,18 @@ const VIAJES_DE_PRUEBA: ViajeHistorial[] = [
   styleUrl: './historial.css',
 })
 export class Historial {
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly usuarioService = inject(UsuarioService);
+  private readonly viajeService = inject(ViajeService);
 
-  readonly viajes = signal<ViajeHistorial[]>(VIAJES_DE_PRUEBA);
+  // El authGuard ya garantiza que hay sesión, por eso el "!"
+  private readonly idUsuario = inject(SesionService).usuario()!.id;
+
+  // GET /usuarios/{id}/historial: se pide solo al abrir la pantalla
+  readonly historial = this.usuarioService.obtenerHistorial(this.idUsuario);
+
+  // Mensaje si falla borrar o marcar favorito
+  readonly errorAccion = signal('');
 
   // Lo que se muestra como precio: el transporte elegido o, si no eligió, el más barato
   etiquetaPrecio(viaje: ViajeHistorial): string {
@@ -59,7 +49,18 @@ export class Historial {
   }
 
   borrar(id: number) {
-    // TODO SCRUM-18: usuarioService.eliminarUsuarioHistorial(idUsuario, id).subscribe(() => historial.reload())
-    this.viajes.update((lista) => lista.filter((v) => v.id !== id));
+    this.errorAccion.set('');
+    this.usuarioService.eliminarUsuarioHistorial(this.idUsuario, id).subscribe({
+      next: () => this.historial.reload(),
+      error: () => this.errorAccion.set('No se pudo borrar el viaje. Probá de nuevo.'),
+    });
+  }
+
+  marcarFavorito(id: number) {
+    this.errorAccion.set('');
+    this.viajeService.toggleFavorito(id).subscribe({
+      next: () => this.historial.reload(),
+      error: () => this.errorAccion.set('No se pudo actualizar el favorito. Probá de nuevo.'),
+    });
   }
 }

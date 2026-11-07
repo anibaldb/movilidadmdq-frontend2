@@ -21,17 +21,21 @@
 
     <div class="campo">
       <label class="label" for="password">Nueva contraseña</label>
-      <input id="password" class="input" type="password" autocomplete="new-password"
-             [formField]="formPerfil.password" placeholder="Déjala vacía para no cambiarla" />
+      <input id="password" class="input" type="password" autocomplete="new-password" [formField]="formPerfil.password"
+        placeholder="Déjala vacía para no cambiarla" />
       <app-mensaje-error [campo]="formPerfil.password()" />
     </div>
 
-    <button class="btn-primary" type="submit" [disabled]="formPerfil().invalid()">
-      Guardar cambios
+    <button class="btn-primary" type="submit" [disabled]="formPerfil().invalid() || guardando()">
+      {{ guardando() ? 'Guardando…' : 'Guardar cambios' }}
     </button>
 
     @if (mensajeGuardado()) {
-      <p class="guardado">{{ mensajeGuardado() }}</p>
+    <p class="guardado">{{ mensajeGuardado() }}</p>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
     }
   </form>
 </section>

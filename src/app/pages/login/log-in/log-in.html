@@ -29,12 +29,14 @@
       </div>
     </div>
 
-    <button class="submit" type="submit" [disabled]="loginForm().touched() && loginForm().invalid()">
+    <button class="submit" type="submit" [disabled]="loginForm().invalid()">
       Ingresar
     </button>
 
     @if (error() != '') {
         <p  class="error">{{error()}}</p>
     }
+
+    <p class="registro">¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
   </form>
 </main>
