@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Service, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { UsuarioLogin, UsuarioAuth, UsuarioRegistro } from '../models/usuario-model';
-import { Observable, tap } from 'rxjs';
+import { UsuarioLogin, UsuarioAuth, UsuarioRegistro, UsuarioActualizarResponse } from '../models/usuario-model';
+import { Observable,map, tap } from 'rxjs';
 
 interface JwtPayload{
     sub?:string,
@@ -33,6 +33,18 @@ export class SesionService {
 
     login(credenciales: UsuarioLogin): Observable<UsuarioAuth> {
         return this.http.post<UsuarioAuth>(`${environment.apiUrl}/usuarios/login`, credenciales).pipe(tap((usuario) => this.guardarSesion(usuario)));
+    }
+
+        // Login con Google: el back solo devuelve el token; los datos del usuario se piden a /usuarios/me
+    iniciarConToken(token: string): Observable<UsuarioAuth> {
+        return this.http
+            .get<UsuarioActualizarResponse>(`${environment.apiUrl}/usuarios/me`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .pipe(
+                map((usuario) => ({ ...usuario, token })),
+                tap((usuario) => this.guardarSesion(usuario)),
+            );
     }
 
     cerrarSesion(redirect = true): void {

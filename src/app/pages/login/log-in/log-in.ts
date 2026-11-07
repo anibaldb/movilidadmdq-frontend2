@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { SesionService } from '../../../services/sesion.service';
-
+import { environment } from '../../../../environments/environment';
 import { UsuarioLogin } from '../../../models/usuario-model';
 import { form, FormField, required } from '@angular/forms/signals';
 import { MensajeError } from '../../../components/mensaje-error/mensaje-error';
@@ -21,6 +21,9 @@ export class LogIn {
 
   readonly error = signal<string>('')
 
+  // El back o la pantalla de Google vuelven con ?error=... si el login con Google falló
+  readonly errorGoogle = this.route.snapshot.queryParamMap.has('error')
+
   private readonly model = signal<UsuarioLogin>({ username: '', password: '' })
 
   readonly loginForm = form(this.model, (ruta) => {
@@ -40,5 +43,10 @@ export class LogIn {
       },
       error: (e) => this.error.set(e.error?.message ?? 'No se pudo iniciar sesión. Probá de nuevo.')
     })
+  }
+
+  entrarConGoogle() {
+    // Sale de la app hacia el back, que nos manda a Google (no es una ruta de Angular)
+    window.location.href = `${environment.apiUrl}/oauth2/authorization/google`
   }
 }

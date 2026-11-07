@@ -32,6 +32,13 @@
     <button class="submit" type="submit" [disabled]="loginForm().invalid()">
       Ingresar
     </button>
+    <button class="google" type="button" (click)="entrarConGoogle()">
+      Continuar con Google
+    </button>
+
+    @if (errorGoogle) {
+      <p class="error">No se pudo iniciar sesión con Google. Probá de nuevo.</p>
+    }
 
     @if (error() != '') {
         <p  class="error">{{error()}}</p>
