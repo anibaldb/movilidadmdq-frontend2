@@ -1,0 +1,55 @@
+<section class="admin-tarifa">
+  <h2 class="titulo">Menu General</h2>
+
+  <form class="card formulario" (submit)="guardar($event)">
+    <div>
+      <h3 class="subtitulo">Configuración tarifa</h3>
+      <p class="descripcion">
+        Ajusta la tarifa del taxi (bajada de bandera, fichas y metros) para toda la plataforma.
+      </p>
+    </div>
+
+    <div class="campo">
+      <label class="label" for="bajadaBanderaDia">Bajada de bandera – Día</label>
+      <input id="bajadaBanderaDia" class="input" type="number"
+             [formField]="formTarifa.bajadaBanderaDia" />
+      <app-mensaje-error [campo]="formTarifa.bajadaBanderaDia()" />
+    </div>
+
+    <div class="campo">
+      <label class="label" for="bajadaBanderaNoche">Bajada de bandera – Noche</label>
+      <input id="bajadaBanderaNoche" class="input" type="number"
+             [formField]="formTarifa.bajadaBanderaNoche" />
+      <app-mensaje-error [campo]="formTarifa.bajadaBanderaNoche()" />
+    </div>
+
+    <div class="campo">
+      <label class="label" for="valorFichaDia">Valor de ficha – Día</label>
+      <input id="valorFichaDia" class="input" type="number"
+             [formField]="formTarifa.valorFichaDia" />
+      <app-mensaje-error [campo]="formTarifa.valorFichaDia()" />
+    </div>
+
+    <div class="campo">
+      <label class="label" for="valorFichaNoche">Valor de ficha – Noche</label>
+      <input id="valorFichaNoche" class="input" type="number"
+             [formField]="formTarifa.valorFichaNoche" />
+      <app-mensaje-error [campo]="formTarifa.valorFichaNoche()" />
+    </div>
+
+    <div class="campo">
+      <label class="label" for="metrosPorFicha">Metros por ficha</label>
+      <input id="metrosPorFicha" class="input" type="number"
+             [formField]="formTarifa.metrosPorFicha" />
+      <app-mensaje-error [campo]="formTarifa.metrosPorFicha()" />
+    </div>
+
+    <button class="btn-primary" type="submit" [disabled]="formTarifa().invalid()">
+      Guardar cambios
+    </button>
+
+    @if (mensajeGuardado()) {
+      <p class="guardado">{{ mensajeGuardado() }}</p>
+    }
+  </form>
+</section>
