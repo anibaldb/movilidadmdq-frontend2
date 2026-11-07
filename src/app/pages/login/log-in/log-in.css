@@ -183,3 +183,20 @@ h1 {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Botón de Google: celeste clarito, como el boceto */
+.google {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #a5f3fc;
+  border-radius: 16px;
+  background-color: #ecfeff;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.google:hover {
+  background-color: #cffafe;
+}
