@@ -34,11 +34,17 @@ export class UsuarioService {
         }))
     }
 
-    obtenerUsuario(query: string){
-        return httpResource<UsuarioActualizarResponse>(() => ({
-            url:`${environment.apiUrl}/usuarios/buscar`,
-            params:{query:query}
-        }))
+    // Recibe una función con el texto a buscar: cada vez que cambia, se vuelve a pedir.
+    // Si está vacío no se hace el pedido (httpResource queda en reposo).
+    obtenerUsuario(query: () => string){
+        return httpResource<UsuarioActualizarResponse>(() => {
+            const texto = query()
+            if (!texto) return undefined
+            return {
+                url:`${environment.apiUrl}/usuarios/buscar`,
+                params:{query:texto}
+            }
+        })
     }
 
     eliminarUsuarioHistorial(id: number, viajeId: number){
