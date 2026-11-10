@@ -20,7 +20,7 @@ export class ViajeService {
     }
 
     calcularViaje(datos: ViajeCalcular){
-        console.log(datos)
+        
         return this.http.post<ViajeCalcularResponse[]>(`${environment.apiUrl}/viajes/calcular`,datos)
     }
 
