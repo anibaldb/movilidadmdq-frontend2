@@ -1,11 +1,16 @@
-import { Component, input } from '@angular/core';
-import { RideOptionCard, RideOption } from '../ride-option-card/ride-option-card';
+import { Component, computed, input } from '@angular/core';
+import { RideOption, RideOptionCard } from '../ride-option-card/ride-option-card';
+import { ViajeCalcularResponse } from '../../models/viaje-model';
 
-const MOCK_OPTIONS: RideOption[] = [
-  { id: '1', tipo: 'Económico', tiempoEstimado: '5 min', precio: 1200 },
-  { id: '2', tipo: 'Estándar', tiempoEstimado: '4 min', precio: 1650 },
-  { id: '3', tipo: 'Premium', tiempoEstimado: '3 min', precio: 2300 },
-];
+function aRideOption(opcion:ViajeCalcularResponse):RideOption{
+  return{
+    id:opcion.tipo, 
+    tipo:opcion.tipo,
+    tiempoEstimado:`${opcion.tiempoMinutos} min`,
+    precio:opcion.precio,
+    url:opcion.url
+  };
+}
 
 @Component({
   selector: 'app-ride-options',
@@ -15,5 +20,8 @@ const MOCK_OPTIONS: RideOption[] = [
 })
 export class RideOptions {
   hasRoute = input(false);
-  options = MOCK_OPTIONS;
+  cargando = input(false)
+  options = input<ViajeCalcularResponse[]>([])
+
+  readonly opciones = computed(() => this.options().map(aRideOption))
 }

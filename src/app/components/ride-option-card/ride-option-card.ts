@@ -5,6 +5,7 @@ export interface RideOption {
   tipo: string;
   tiempoEstimado: string;
   precio: number;
+  url:string;
 }
 
 @Component({
