@@ -1,0 +1,69 @@
+<section class="foros">
+  <div class="encabezado">
+    <h2 class="titulo">Foros</h2>
+    @if (!creando()) {
+      <button type="button" class="btn-nuevo" (click)="abrirFormulario()" [disabled]="llegoAlLimite()">
+        + Nuevo foro
+      </button>
+    }
+  </div>
+
+  <p class="contador" [class.lleno]="llegoAlLimite()">
+    Tus foros: {{ misForos() }}/{{ max }}
+    @if (llegoAlLimite()) { · Borrá uno para crear otro. }
+  </p>
+
+  @if (errorAccion()) {
+    <p class="error">{{ errorAccion() }}</p>
+  }
+
+  @if (creando()) {
+    <form class="form-foro" (submit)="crear($event)">
+      <input class="input" type="text" [formField]="formForo.titulo" placeholder="Título del foro" />
+      <app-mensaje-error [campo]="formForo.titulo()" />
+
+      <textarea class="input" rows="3" [formField]="formForo.descripcion"
+                placeholder="Descripción (opcional)"></textarea>
+      <app-mensaje-error [campo]="formForo.descripcion()" />
+
+      <div class="acciones">
+        <button type="submit" class="btn-guardar" [disabled]="formForo().invalid() || enviando()">
+          {{ enviando() ? 'Publicando…' : 'Publicar' }}
+        </button>
+        <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </form>
+  }
+
+  @if (foros.error()) {
+    <p class="vacio">No pudimos cargar los foros. Probá de nuevo en un rato.</p>
+  } @else if (!foros.hasValue()) {
+    <p class="vacio">Cargando…</p>
+  } @else {
+    @for (foro of foros.value(); track foro.id) {
+      <article class="foro">
+        <a class="foro-link" [routerLink]="['/foros', foro.id]">
+          <span class="foro-titulo">{{ foro.titulo }}</span>
+          @if (foro.descripcion) {
+            <span class="foro-desc">{{ foro.descripcion }}</span>
+          }
+          <span class="foro-meta">
+            {{ foro.autor }} · {{ foro.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }} ·
+            {{ foro.cantidadComentarios }} {{ foro.cantidadComentarios === 1 ? 'comentario' : 'comentarios' }}
+          </span>
+        </a>
+
+        @if (foro.autorId === idUsuario) {
+          <button type="button" class="btn-icono" (click)="eliminar(foro)"
+                  aria-label="Borrar foro" title="Borrar foro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" />
+            </svg>
+          </button>
+        }
+      </article>
+    } @empty {
+      <p class="vacio">Todavía no hay foros. ¡Creá el primero!</p>
+    }
+  }
+</section>

@@ -10,6 +10,8 @@ import { AdminUsuarios } from './pages/admin-usuarios/admin-usuarios';
 import { authGuard, guestGuard } from './guards/auth-guard';
 import { adminGuard } from './guards/admin-guard';
 import { Oauth2Redirect } from './pages/login/oauth2-redirect/oauth2-redirect';
+import { Foros } from './pages/foros/foros';
+import { ForoDetalle } from './pages/foro-detalle/foro-detalle';
 
 export const routes: Routes = [
   { path: 'calcular', component: Calcular, canActivate: [authGuard] },
@@ -19,6 +21,9 @@ export const routes: Routes = [
   { path: 'historial', component: Historial, canActivate: [authGuard] },
   { path: 'favoritos', component: Favoritos, canActivate: [authGuard] },
   { path: 'perfil', component: Perfil, canActivate: [authGuard] },
+  { path: 'perfil', component: Perfil, canActivate: [authGuard] },
+  { path: 'foros', component: Foros, canActivate: [authGuard] },
+  { path: 'foros/:id', component: ForoDetalle, canActivate: [authGuard] },
   { path: 'admin/tarifa', component: AdminTarifa, canActivate: [adminGuard] },
   { path: 'admin/usuarios', component: AdminUsuarios, canActivate: [adminGuard] },
   { path: '', redirectTo: 'calcular', pathMatch: 'full' },

@@ -1,0 +1,182 @@
+/* ---------- Celular (por defecto) ---------- */
+.foros {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+.btn-nuevo {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-nuevo:disabled {
+  background-color: var(--color-text-faint);
+  cursor: not-allowed;
+}
+
+.contador {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.contador.lleno {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.form-foro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background-color: var(--color-surface);
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-guardar,
+.btn-cancelar {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-guardar {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-guardar:disabled {
+  background-color: var(--color-text-faint);
+  cursor: not-allowed;
+}
+
+.btn-cancelar {
+  background-color: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.foro {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background-color: var(--color-surface);
+}
+
+.foro:hover {
+  border-color: var(--color-text-faint);
+}
+
+.foro-link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.foro-titulo {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.foro-desc {
+  color: var(--color-text-muted);
+  /* en la lista, como mucho 2 renglones */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.foro-meta {
+  font-size: 0.8rem;
+  color: var(--color-text-faint);
+}
+
+.btn-icono {
+  flex-shrink: 0;
+  padding: 6px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-danger);
+  cursor: pointer;
+}
+
+.btn-icono:hover {
+  background-color: #fee2e2;
+}
+
+.btn-icono svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.vacio {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+/* ---------- PC ---------- */
+@media (min-width: 768px) {
+  .foros {
+    padding: 0 32px 32px;
+  }
+
+  .titulo {
+    font-size: 1.875rem;
+  }
+}
