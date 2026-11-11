@@ -1,0 +1,42 @@
+<section class="foro-detalle">
+  <a routerLink="/foros" class="volver">← Volver a foros</a>
+
+  @if (foro.error()) {
+    <p class="vacio">Este foro no existe o fue borrado.</p>
+  } @else if (foro.value(); as f) {
+    <header class="cabecera">
+      <h2 class="titulo">{{ f.titulo }}</h2>
+      <span class="meta">{{ f.autor }} · {{ f.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</span>
+      @if (f.descripcion) {
+        <p class="descripcion">{{ f.descripcion }}</p>
+      }
+    </header>
+
+    <h3 class="subtitulo">Comentarios ({{ f.comentarios.length }})</h3>
+
+    @for (c of f.comentarios; track c.id) {
+      <article class="comentario" [class.propio]="c.autorId === idUsuario">
+        <span class="meta"><strong>{{ c.autor }}</strong> · {{ c.fecha | date: 'dd/MM HH:mm' }}</span>
+        <p class="texto">{{ c.texto }}</p>
+      </article>
+    } @empty {
+      <p class="vacio">Todavía nadie comentó. ¡Sé el primero!</p>
+    }
+
+    <form class="nuevo-comentario" (submit)="comentar($event)">
+      <textarea class="input" rows="3" [formField]="formComentario.texto"
+                placeholder="Escribí tu comentario…"></textarea>
+      <app-mensaje-error [campo]="formComentario.texto()" />
+
+      @if (errorAccion()) {
+        <p class="error">{{ errorAccion() }}</p>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="formComentario().invalid() || enviando()">
+        {{ enviando() ? 'Enviando…' : 'Comentar' }}
+      </button>
+    </form>
+  } @else {
+    <p class="vacio">Cargando…</p>
+  }
+</section>
