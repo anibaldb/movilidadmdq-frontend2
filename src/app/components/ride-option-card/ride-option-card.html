@@ -3,5 +3,14 @@
     <span class="ride-tipo">{{ option().tipo }}</span>
     <span class="ride-tiempo">{{ option().tiempoEstimado }}</span>
   </div>
-  <span class="ride-precio">${{ option().precio }}</span>
+
+  <div class="ride-accion">
+    <span class="ride-precio">${{ option().precio | number: '1.0-0' }}</span>
+    <a class="btn-elegir"
+       [href]="option().url"
+       [attr.target]="esLlamada() ? null : '_blank'"
+       rel="noopener">
+      {{ esLlamada() ? 'Llamar' : 'Elegir' }}
+    </a>
+  </div>
 </div>

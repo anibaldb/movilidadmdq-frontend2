@@ -31,3 +31,22 @@
   font-size: 1.25rem;
   color: var(--color-text);
 }
+
+.ride-accion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-elegir {
+  padding: 8px 16px;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn-elegir:hover {
+  background-color: var(--color-primary-hover);
+}
