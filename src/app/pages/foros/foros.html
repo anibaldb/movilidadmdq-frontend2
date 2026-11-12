@@ -53,7 +53,7 @@
           </span>
         </a>
 
-        @if (foro.autorId === idUsuario) {
+        @if (foro.autorId === idUsuario || esAdmin()) {
           <button type="button" class="btn-icono" (click)="eliminar(foro)"
                   aria-label="Borrar foro" title="Borrar foro">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

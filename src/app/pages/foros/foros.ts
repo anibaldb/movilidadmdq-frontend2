@@ -18,6 +18,8 @@ export class Foros {
   private readonly foroService = inject(ForoService);
   readonly idUsuario = inject(SesionService).usuario()!.id;
 
+  readonly esAdmin = inject(SesionService).esAdmin;
+
   // GET /foros: los foros de todos, del más nuevo al más viejo
   readonly foros = this.foroService.obtenerForos();
 
