@@ -200,3 +200,13 @@ h1 {
 .google:hover {
   background-color: #cffafe;
 }
+
+.exito {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background-color: #dcfce7;
+  color: #166534;
+  font-size: 0.875rem;
+  font-weight: 600;
+}

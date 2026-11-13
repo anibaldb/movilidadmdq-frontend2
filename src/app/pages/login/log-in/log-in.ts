@@ -24,11 +24,17 @@ export class LogIn {
   // El back o la pantalla de Google vuelven con ?error=... si el login con Google falló
   readonly errorGoogle = this.route.snapshot.queryParamMap.has('error')
 
-  private readonly model = signal<UsuarioLogin>({ username: '', password: '' })
+  // Viene de crear la cuenta: /login?registrado=1&usuario=...
+  readonly registrado = this.route.snapshot.queryParamMap.has('registrado')
+
+  private readonly model = signal<UsuarioLogin>({
+    username: this.route.snapshot.queryParamMap.get('usuario') ?? '',
+    password: ''
+  })
 
   readonly loginForm = form(this.model, (ruta) => {
     required(ruta.username, {message: 'El usuario es obligatorio'})
-    required(ruta.password, {message: 'La contraseña es obligatorio'})
+    required(ruta.password, {message: 'La contraseña es obligatoria'})
   })
 
     enviar(event: Event) {

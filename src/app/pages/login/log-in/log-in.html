@@ -3,6 +3,10 @@
     <h1>Iniciar sesión</h1>
     <p class="subtitle">Ingresá con tu cuenta para continuar</p>
 
+     @if (registrado) {
+      <p class="exito">Cuenta creada. Ya podés iniciar sesión.</p>
+    }
+
     <div class="campo">
       <label for="username">Usuario</label>
       <input id="username" type="text" [formField]="loginForm.username"/>
