@@ -27,6 +27,18 @@
       </div>
     </div>
 
+    <div class="campo">
+      <label for="confirmarPassword">Repetir contraseña</label>
+      <div class="password-wrap">
+        <input id="confirmarPassword" [type]="showConfirmar() ? 'text' : 'password'" [formField]="registroForm.confirmarPassword" />
+        <app-mensaje-error class="error" [campo]="registroForm.confirmarPassword()"></app-mensaje-error>
+        <button type="button" class="toggle" (click)="showConfirmar.set(!showConfirmar())"
+          [attr.aria-label]="showConfirmar() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+          {{ showConfirmar() ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+    </div>
+
     <button class="submit" type="submit" [disabled]="registroForm().invalid()">
       Registrarse
     </button>
