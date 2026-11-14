@@ -1,12 +1,33 @@
-import { Component, input } from '@angular/core';
-import { IconButton } from '../icon-button/icon-button';
+import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { IconButton } from '../../components/icon-button/icon-button';
+import { SesionService } from '../../services/sesion.service';
 
 @Component({
-  imports: [IconButton],
   selector: 'app-header',
-  styleUrl: './header.css',
+  imports: [RouterLink, IconButton],
   templateUrl: './header.html',
+  styleUrl: './header.css',
 })
 export class Header {
-  userName = input('NombreUsuario(esta harcodeado por ahora)')
+  private readonly sesion = inject(SesionService)
+  
+  readonly nombreUsuario = computed(() => this.sesion.usuario()?.username ?? 'Viajero');
+  readonly esAdmin = this.sesion.esAdmin;
+
+  // ¿El menú desplegable está abierto?
+  readonly menuAbierto = signal(false);
+
+  alternarMenu() {
+    this.menuAbierto.update((abierto) => !abierto);
+  }
+
+  cerrarMenu() {
+    this.menuAbierto.set(false);
+  }
+
+  cerrarSesion() {
+    this.cerrarMenu();
+    this.sesion.cerrarSesion();
+  }
 }

@@ -1,0 +1,97 @@
+.nombre {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.nombre:hover {
+  color: var(--color-text, #111827);
+}
+
+.btn-bloquear {
+  margin-left: 6px;
+  padding: 1px 10px;
+  border: none;
+  border-radius: 999px;
+  background-color: #fee2e2;
+  color: var(--color-danger, #dc2626);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-bloquear:hover {
+  background-color: #fecaca;
+}
+
+.btn-bloquear.desbloquear {
+  background-color: var(--color-surface-soft, #f3f4f6);
+  color: var(--color-text, #111827);
+}
+
+.btn-bloquear.desbloquear:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-bloquear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.estado,
+.error {
+  margin-left: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-danger, #dc2626);
+}
+
+.confirmacion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.botones {
+  display: flex;
+  gap: 6px;
+}
+
+.aviso {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.confirmacion .btn-bloquear {
+  margin-left: 0;
+}
+
+.btn-cancelar {
+  padding: 1px 10px;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--color-surface-soft, #f3f4f6);
+  color: var(--color-text, #111827);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-cancelar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

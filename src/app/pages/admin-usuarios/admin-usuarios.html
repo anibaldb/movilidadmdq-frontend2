@@ -1,0 +1,106 @@
+<section class="admin-usuarios">
+  <h2 class="titulo">Menu General</h2>
+
+  <form class="card formulario" (submit)="buscar($event)">
+    <div>
+      <h3 class="subtitulo">Gestión de Usuarios</h3>
+      <p class="descripcion">Busca y elimina cuentas de usuarios que infrinjan las normas.</p>
+    </div>
+
+    <div class="campo">
+      <label class="label" for="query">Email o username</label>
+      <div class="buscador">
+        <input id="query" class="input" type="text" autocomplete="off"
+               [formField]="formBusqueda.query" />
+        <button class="btn-primary" type="submit" [disabled]="formBusqueda().invalid()">
+          Buscar
+        </button>
+      </div>
+      <app-mensaje-error [campo]="formBusqueda.query()" />
+    </div>
+  </form>
+
+  @if (mensaje()) {
+    <p class="guardado">{{ mensaje() }}</p>
+  }
+
+  @if (usuario.isLoading()) {
+    <p class="vacio">Buscando…</p>
+  } @else if (noEncontrado()) {
+    <p class="vacio">No se encontró ningún usuario con ese username o email.</p>
+  } @else if (usuario.error()) {
+    <p class="error">No pudimos buscar el usuario. Probá de nuevo en un rato.</p>
+  } @else if (usuario.hasValue()) {
+    <article class="card resultado">
+      <dl class="datos">
+        <dt>Username</dt>
+        <dd>{{ usuario.value().username }}</dd>
+        <dt>Email</dt>
+        <dd>{{ usuario.value().email }}</dd>
+        <dt>Rol</dt>
+        <dd>{{ usuario.value().role === 'ADMIN' ? 'Administrador' : 'Usuario' }}</dd>
+        <dt>Estado</dt>
+        <dd>{{ bloqueado() ? 'Bloqueado (no puede crear foros ni comentar)' : 'Activo' }}</dd>
+      </dl>
+
+      @if (esUsuarioActual()) {
+        <p class="vacio">Esta es tu cuenta: no podés bloquearla ni eliminarla desde acá.</p>
+      } @else if (confirmando() === 'bloquear' || confirmando() === 'desbloquear') {
+        <div class="confirmacion">
+          <p class="aviso">
+            @if (confirmando() === 'bloquear') {
+              ¿Bloquear a <strong>{{ usuario.value().username }}</strong>?
+              No va a poder crear foros ni comentar, pero sí va a poder verlos.
+            } @else {
+              ¿Desbloquear a <strong>{{ usuario.value().username }}</strong>?
+              Va a poder crear foros y comentar de nuevo.
+            }
+          </p>
+          <div class="acciones">
+            <button type="button" class="btn-cancelar" [disabled]="cambiandoBloqueo()"
+                    (click)="confirmando.set(null)">
+              Cancelar
+            </button>
+            <button type="button" class="btn-eliminar"
+                    [disabled]="cambiandoBloqueo()" (click)="confirmarBloqueo()">
+              @if (cambiandoBloqueo()) {
+                Guardando…
+              } @else {
+                {{ confirmando() === 'bloquear' ? 'Sí, bloquear' : 'Sí, desbloquear' }}
+              }
+            </button>
+          </div>
+        </div>
+      } @else if (confirmando() === 'eliminar') {
+        <div class="confirmacion">
+          <p class="aviso">
+            ¿Eliminar la cuenta de <strong>{{ usuario.value().username }}</strong>?
+            Se borran también sus viajes guardados y no se puede deshacer.
+          </p>
+          <div class="acciones">
+            <button type="button" class="btn-cancelar" [disabled]="eliminando()"
+                    (click)="confirmando.set(null)">
+              Cancelar
+            </button>
+            <button type="button" class="btn-eliminar" [disabled]="eliminando()" (click)="eliminar()">
+              {{ eliminando() ? 'Eliminando…' : 'Sí, eliminar' }}
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="acciones">
+          <button type="button" class="btn-cancelar" (click)="pedirBloqueo()">
+            {{ bloqueado() ? 'Desbloquear usuario' : 'Bloquear usuario' }}
+          </button>
+          <button type="button" class="btn-eliminar" (click)="confirmando.set('eliminar')">
+            Eliminar usuario
+          </button>
+        </div>
+      }
+
+      @if (errorAccion()) {
+        <p class="error">{{ errorAccion() }}</p>
+      }
+    </article>
+  }
+</section>

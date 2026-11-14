@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LocationInput } from './location-input';
+import { ForoDetalle } from './foro-detalle';
 
-describe('LocationInput', () => {
-  let component: LocationInput;
-  let fixture: ComponentFixture<LocationInput>;
+describe('ForoDetalle', () => {
+  let component: ForoDetalle;
+  let fixture: ComponentFixture<ForoDetalle>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LocationInput],
+      imports: [ForoDetalle],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LocationInput);
+    fixture = TestBed.createComponent(ForoDetalle);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

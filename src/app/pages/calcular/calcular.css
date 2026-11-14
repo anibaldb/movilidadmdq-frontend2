@@ -1,26 +1,125 @@
-.calcular-layout {
-  display: flex;
-  align-items: stretch;
-  gap: 24px;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 32px 32px;
-}
+/* =========================================================
+   Pantalla Calcular
+   Orden: campos → botón → mapa → opciones (una sola columna)
+   Mobile first: lo de arriba es para celular y el @media
+   del final ajusta para PC
+   ========================================================= */
 
-.calcular-sidebar {
-  flex: 0 0 440px;
+/* ---------- Celular (por defecto) ---------- */
+
+/* Contenedor de la pantalla: todo uno abajo del otro */
+.calcular-layout {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 0 16px 24px;
 }
 
+/* El mapa: alto fijo y bordes redondeados */
 .calcular-map {
-  flex: 1;
-  min-width: 0;
-  position: sticky;
-  top: 16px;
-  
-  border-radius: 12px;
+  height: 320px;
+  border-radius: 24px;
   overflow: hidden;
+}
 
+/* Formulario: campos y botón uno abajo del otro */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Un campo: la caja con el input + el mensaje de error abajo */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* La caja gris con el ícono y el input adentro */
+.campo-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--color-surface-soft);
+}
+
+/* Borde negro cuando el input de adentro tiene el foco */
+.campo-input:focus-within {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Borde rojo cuando el campo tiene error */
+.campo-input.con-error {
+  box-shadow: 0 0 0 2px var(--color-danger);
+}
+
+.campo-input svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-text-faint);
+}
+
+/* El input en sí: sin borde ni fondo, porque los pone la caja */
+.campo-input input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.campo-input input::placeholder {
+  color: var(--color-text-faint);
+}
+
+/* Botón de GPS dentro del campo origen */
+.btn-gps {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-gps:hover svg {
+  color: var(--color-text);
+}
+
+.btn-gps:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* Mismo estilo que los errores del formulario */
+.error-gps {
+  margin: 0 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+/* ---------- PC / pantalla horizontal ---------- */
+/* Dos columnas: a la izquierda formulario y opciones; el mapa ocupa toda la derecha */
+@media (min-width: 768px) {
+  .calcular-layout {
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px 24px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px 32px;
+  }
+
+  .calcular-map {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    height: auto;
+    min-height: 480px;
+  }
 }

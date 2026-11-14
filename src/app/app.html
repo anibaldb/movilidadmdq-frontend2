@@ -1,4 +1,7 @@
-<app-header></app-header>
-<app-nav-tabs></app-nav-tabs>
+<!-- Login y Registro no llevan header ni pestañas (como el boceto) -->
+@if (sesion.logueado()) {
+  <app-header></app-header>
+  <app-nav-tabs></app-nav-tabs>
+}
 
 <router-outlet></router-outlet>

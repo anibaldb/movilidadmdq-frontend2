@@ -1,0 +1,5 @@
+.mensaje {
+  margin: 64px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+}

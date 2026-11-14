@@ -1,0 +1,52 @@
+<main class="registro-page">
+  <form class="registro-card" (submit)="enviar($event)">
+    <h1>Registrarse</h1>
+    <p class="subtitle">Ingresá con tu cuenta para continuar</p>
+
+    <div class="campo">
+      <label for="username">Usuario</label>
+      <input id="username" type="text" [formField]="registroForm.username" />
+      <app-mensaje-error class="error" [campo]="registroForm.username()"></app-mensaje-error>
+    </div>
+
+    <div class="campo">
+      <label for="email">Email</label>
+      <input id="email" type="email" [formField]="registroForm.email" />
+      <app-mensaje-error class="error" [campo]="registroForm.email()"></app-mensaje-error>
+    </div>
+
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <div class="password-wrap">
+        <input id="password" [type]="showPassword() ? 'text' : 'password'" [formField]="registroForm.password" />
+        <app-mensaje-error class="error" [campo]="registroForm.password()"></app-mensaje-error>
+        <button type="button" class="toggle" (click)="showPassword.set(!showPassword())"
+          [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+          {{ showPassword() ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="confirmarPassword">Repetir contraseña</label>
+      <div class="password-wrap">
+        <input id="confirmarPassword" [type]="showConfirmar() ? 'text' : 'password'" [formField]="registroForm.confirmarPassword" />
+        <app-mensaje-error class="error" [campo]="registroForm.confirmarPassword()"></app-mensaje-error>
+        <button type="button" class="toggle" (click)="showConfirmar.set(!showConfirmar())"
+          [attr.aria-label]="showConfirmar() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+          {{ showConfirmar() ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+    </div>
+
+    <button class="submit" type="submit" [disabled]="registroForm().invalid()">
+      Registrarse
+    </button>
+
+    @if (error() != '') {
+    <p class="error">{{error()}}</p>
+    }
+
+    <p class="login">¿Ya tenés cuenta? <a routerLink="/login">Inicia Sesion</a></p>
+  </form>
+</main>

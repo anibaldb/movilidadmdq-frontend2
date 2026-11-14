@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouteForm } from './route-form';
+import { Registro } from './registro';
 
-describe('RouteForm', () => {
-  let component: RouteForm;
-  let fixture: ComponentFixture<RouteForm>;
+describe('Registro', () => {
+  let component: Registro;
+  let fixture: ComponentFixture<Registro>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouteForm],
+      imports: [Registro],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RouteForm);
+    fixture = TestBed.createComponent(Registro);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
