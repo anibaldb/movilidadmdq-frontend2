@@ -13,18 +13,26 @@
       <app-mensaje-error [campo]="formPerfil.username()" />
     </div>
 
-    <div class="campo">
-      <label class="label" for="email">Email</label>
-      <input id="email" class="input" type="email" [formField]="formPerfil.email" />
-      <app-mensaje-error [campo]="formPerfil.email()" />
-    </div>
+        @if (esGoogle) {
+      <div class="campo">
+        <span class="label">Email</span>
+        <p class="dato-fijo">{{ model().email }}</p>
+        <p class="nota">Entrás con Google: el email y la contraseña se manejan desde tu cuenta de Google.</p>
+      </div>
+    } @else {
+      <div class="campo">
+        <label class="label" for="email">Email</label>
+        <input id="email" class="input" type="email" [formField]="formPerfil.email" />
+        <app-mensaje-error [campo]="formPerfil.email()" />
+      </div>
 
-    <div class="campo">
-      <label class="label" for="password">Nueva contraseña</label>
-      <input id="password" class="input" type="password" autocomplete="new-password" [formField]="formPerfil.password"
-        placeholder="Déjala vacía para no cambiarla" />
-      <app-mensaje-error [campo]="formPerfil.password()" />
-    </div>
+      <div class="campo">
+        <label class="label" for="password">Nueva contraseña</label>
+        <input id="password" class="input" type="password" autocomplete="new-password" [formField]="formPerfil.password"
+          placeholder="Déjala vacía para no cambiarla" />
+        <app-mensaje-error [campo]="formPerfil.password()" />
+      </div>
+    }
 
     <button class="btn-primary" type="submit" [disabled]="formPerfil().invalid() || guardando()">
       {{ guardando() ? 'Guardando…' : 'Guardar cambios' }}

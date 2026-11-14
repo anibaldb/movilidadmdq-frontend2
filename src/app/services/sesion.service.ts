@@ -42,7 +42,8 @@ export class SesionService {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .pipe(
-                map((usuario) => ({ ...usuario, token })),
+                // Solo se llega acá entrando con Google: lo marcamos en la sesión
+                map((usuario) => ({ ...usuario, token, proveedor: 'GOOGLE' as const })),
                 tap((usuario) => this.guardarSesion(usuario)),
             );
     }
