@@ -7,6 +7,7 @@ import { MensajeError } from '../../components/mensaje-error/mensaje-error';
 import { ForoService } from '../../services/foro-service';
 import { SesionService } from '../../services/sesion.service';
 import { Autor } from '../../components/autor/autor/autor';
+import { ComentarioForo } from '../../models/foro-model';
 
 @Component({
   selector: 'app-foro-detalle',
@@ -17,6 +18,7 @@ import { Autor } from '../../components/autor/autor/autor';
 export class ForoDetalle {
   private readonly foroService = inject(ForoService);
   readonly idUsuario = inject(SesionService).usuario()!.id;
+    readonly esAdmin = inject(SesionService).esAdmin;
 
   // El id viene de la URL: /foros/7 → 7
   private readonly idForo = Number(inject(ActivatedRoute).snapshot.paramMap.get('id'));
@@ -52,6 +54,17 @@ export class ForoDetalle {
         this.errorAccion.set(err.error?.message ?? 'No se pudo enviar el comentario. Probá de nuevo.');
         this.enviando.set(false);
       },
+    });
+  }
+
+    eliminarComentario(c: ComentarioForo) {
+    if (!confirm('¿Borrar este comentario?')) return;
+
+    this.errorAccion.set('');
+    this.foroService.eliminarComentario(this.idForo, c.id).subscribe({
+      next: () => this.foro.reload(),
+      error: (err: HttpErrorResponse) =>
+        this.errorAccion.set(err.error?.message ?? 'No se pudo borrar el comentario. Probá de nuevo.'),
     });
   }
 }
