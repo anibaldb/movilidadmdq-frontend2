@@ -5,7 +5,7 @@ import { RideOptions } from '../../components/ride-options/ride-options';
 import { MensajeError } from '../../components/mensaje-error/mensaje-error';
 import { ActivatedRoute } from '@angular/router';
 import { ViajeService } from '../../services/viaje-service';
-import { ViajeCalcular, ViajeCalcularResponse } from '../../models/viaje-model';
+import { ViajeCalcular, ViajeCalcularResponse, DireccionFavorita } from '../../models/viaje-model';
 
 type Campo = 'origen' | 'destino';
 // Lo que recibe el mapa: coordenadas o, si no hay, el texto de la dirección
@@ -108,6 +108,51 @@ export class Calcular {
   // Estado del botón de GPS
   readonly buscandoUbicacion = signal(false);
   readonly errorUbicacion = signal('');
+
+  
+  // ===== Direcciones favoritas en origen y destino =====
+
+  // Las direcciones favoritas del usuario (GET /viajes/direcciones-favoritas)
+  readonly favoritas = this.viajeService.obtenerDireccionesFavoritos();
+
+  // Primero las que tienen nombre ("Casa", "Trabajo"), después el resto
+  readonly favoritasOrdenadas = computed(() =>
+    [...(this.favoritas.value() ?? [])].sort((a, b) => Number(!a.nombre) - Number(!b.nombre)),
+  );
+
+  // Qué campo tiene abierta la lista de la estrella (null = ninguno)
+  readonly listaFavoritas = signal<Campo | null>(null);
+
+  alternarFavoritas(campo: Campo) {
+    this.listaFavoritas.update((abierta) => (abierta === campo ? null : campo));
+  }
+
+  // Completa el campo como si se hubiera elegido de las sugerencias de Google
+  usarFavorita(campo: Campo, fav: DireccionFavorita) {
+    this.model.update((m) => ({ ...m, [campo]: fav.direccion }));
+    if (fav.lat != null && fav.lng != null) {
+      this.coords.update((c) => ({ ...c, [campo]: { lat: fav.lat, lng: fav.lng } }));
+    }
+    this.detalles.update((d) => ({
+      ...d,
+      [campo]: { placeId: fav.placeId ?? '', linea1: fav.direccion, linea2: fav.direccion },
+    }));
+    this.listaFavoritas.set(null);
+  }
+
+  // Favorita cuyo nombre empieza con lo que se escribió ("cas" → Casa).
+  // Si el campo ya tiene coordenadas (ya se eligió algo), no sugiere nada.
+  private coincidencia(campo: Campo): DireccionFavorita | null {
+    const texto = this.model()[campo].trim().toLowerCase();
+    if (texto.length < 2 || this.coords()[campo]) return null;
+    return this.favoritas.value()?.find((f) => f.nombre?.toLowerCase().startsWith(texto)) ?? null;
+  }
+
+  // El chip "★ Casa" de cada campo: se recalcula solo con cada letra que se escribe
+  readonly sugerencia = computed(() => ({
+    origen: this.coincidencia('origen'),
+    destino: this.coincidencia('destino'),
+  }));
 
   usarMiUbicacion() {
     if (!navigator.geolocation) {

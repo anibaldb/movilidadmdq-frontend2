@@ -103,6 +103,93 @@
   color: var(--color-danger);
 }
 
+/* "★ Casa": aparece dentro del campo cuando lo escrito coincide con una favorita */
+.chip-fav {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 999px;
+  background-color: #fef3c7;
+  color: #92400e;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chip-fav:hover {
+  background-color: #fde68a;
+}
+
+/* Botón de favoritas dentro de los campos (igual que el de GPS) */
+.btn-fav {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-fav:hover svg,
+.btn-fav.activa svg {
+  color: #f59e0b;
+}
+
+.btn-fav.activa svg {
+  fill: currentColor; /* estrella llena cuando la lista está abierta */
+}
+
+/* Lista de favoritas debajo del campo */
+.lista-favoritas {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background-color: var(--color-surface);
+}
+
+.lista-favoritas button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lista-favoritas button:hover {
+  background-color: var(--color-surface-soft);
+}
+
+.fav-nombre {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.fav-direccion {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.fav-vacio {
+  padding: 10px 12px;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
 /* ---------- PC / pantalla horizontal ---------- */
 /* Dos columnas: a la izquierda formulario y opciones; el mapa ocupa toda la derecha */
 @media (min-width: 768px) {
@@ -123,3 +210,4 @@
     min-height: 480px;
   }
 }
+
