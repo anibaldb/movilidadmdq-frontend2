@@ -15,8 +15,18 @@
     <h3 class="subtitulo">Comentarios ({{ f.comentarios.length }})</h3>
 
     @for (c of f.comentarios; track c.id) {
-      <article class="comentario" [class.propio]="c.autorId === idUsuario">
-        <span class="meta"><strong><app-autor [autorId]="c.autorId" [autor]="c.autor" /></strong> · {{ c.fecha | date: 'dd/MM HH:mm' }}</span>
+            <article class="comentario" [class.propio]="c.autorId === idUsuario">
+        <div class="fila">
+          <span class="meta"><strong><app-autor [autorId]="c.autorId" [autor]="c.autor" /></strong> · {{ c.fecha | date: 'dd/MM HH:mm' }}</span>
+          @if (c.autorId === idUsuario || esAdmin()) {
+            <button type="button" class="btn-icono" (click)="eliminarComentario(c)"
+                    aria-label="Borrar comentario" title="Borrar comentario">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" />
+              </svg>
+            </button>
+          }
+        </div>
         <p class="texto">{{ c.texto }}</p>
       </article>
     } @empty {

@@ -27,4 +27,8 @@ export class ForoService {
   eliminarForo(id: number) {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
+
+  eliminarComentario(foroId: number, comentarioId: number) {
+    return this.http.delete<void>(`${this.url}/${foroId}/comentarios/${comentarioId}`);
+  }
 }
