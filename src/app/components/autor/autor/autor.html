@@ -1,0 +1,46 @@
+@if (puedeBloquear()) {
+  <button type="button" class="nombre" (click)="alternar()" [attr.aria-expanded]="abierto()"
+    title="Opciones de moderación">{{ autor() }}</button>
+
+  @if (bloqueado()) {
+    <span class="estado">Bloqueado</span>
+  }
+
+  @if (accion()) {
+    <!-- Confirmación dentro de la página -->
+    <span class="confirmacion" role="group" aria-label="Confirmar acción">
+      <span class="aviso">
+        @if (accion() === 'bloquear') {
+          ¿Bloquear a {{ autor() }}? No va a poder crear foros ni comentar.
+        } @else {
+          ¿Desbloquear a {{ autor() }}? Va a poder crear foros y comentar de nuevo.
+        }
+      </span>
+      <span class="botones">
+        <button type="button" class="btn-cancelar" (click)="cancelar()" [disabled]="cambiando()">
+          Cancelar
+        </button>
+        <button type="button" class="btn-bloquear" [class.desbloquear]="accion() === 'desbloquear'"
+          (click)="confirmar()" [disabled]="cambiando()">
+          @if (cambiando()) {
+            Guardando…
+          } @else {
+            {{ accion() === 'bloquear' ? 'Sí, bloquear' : 'Sí, desbloquear' }}
+          }
+        </button>
+      </span>
+    </span>
+  } @else if (bloqueado() || abierto()) {
+    <!-- Si está bloqueado el botón queda siempre visible; si no, aparece al tocar el nombre -->
+    <button type="button" class="btn-bloquear" [class.desbloquear]="bloqueado()"
+      (click)="pedirConfirmacion()">
+      {{ bloqueado() ? 'Desbloquear usuario' : 'Bloquear usuario' }}
+    </button>
+  }
+
+  @if (error()) {
+    <span class="error" role="alert">{{ error() }}</span>
+  }
+} @else {
+  {{ autor() }}
+}

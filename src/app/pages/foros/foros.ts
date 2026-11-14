@@ -7,10 +7,11 @@ import { MensajeError } from '../../components/mensaje-error/mensaje-error';
 import { ForoService } from '../../services/foro-service';
 import { SesionService } from '../../services/sesion.service';
 import { Foro, MAX_FOROS_POR_USUARIO } from '../../models/foro-model';
+import { Autor } from '../../components/autor/autor/autor';
 
 @Component({
   selector: 'app-foros',
-  imports: [DatePipe, RouterLink, FormField, MensajeError],
+  imports: [DatePipe, RouterLink, FormField, MensajeError, Autor],
   templateUrl: './foros.html',
   styleUrl: './foros.css',
 })

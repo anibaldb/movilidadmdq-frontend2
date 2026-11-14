@@ -6,10 +6,11 @@ import { form, required, pattern, maxLength, FormField } from '@angular/forms/si
 import { MensajeError } from '../../components/mensaje-error/mensaje-error';
 import { ForoService } from '../../services/foro-service';
 import { SesionService } from '../../services/sesion.service';
+import { Autor } from '../../components/autor/autor/autor';
 
 @Component({
   selector: 'app-foro-detalle',
-  imports: [DatePipe, RouterLink, FormField, MensajeError],
+  imports: [DatePipe, RouterLink, FormField, MensajeError, Autor],
   templateUrl: './foro-detalle.html',
   styleUrl: './foro-detalle.css',
 })
