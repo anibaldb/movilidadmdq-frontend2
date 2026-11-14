@@ -16,6 +16,8 @@ export class Perfil {
 
   // El authGuard ya garantiza que hay sesión, por eso el "!"
   private readonly usuario = this.sesion.usuario()!;
+  // Entró con Google: el email es su "llave" (el back lo busca por email) y no tiene contraseña propia
+  readonly esGoogle = this.usuario.proveedor === 'GOOGLE';
 
   // 1. Los datos del formulario: arrancan con los del usuario logueado
   readonly model = signal({ username: this.usuario.username, email: this.usuario.email, password: '' });

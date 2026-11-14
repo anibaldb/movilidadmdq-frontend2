@@ -2,6 +2,7 @@
 
   <form class="formulario" (submit)="calcular($event)">
 
+    <!-- ===== Origen ===== -->
     <div class="campo">
       <div class="campo-input" [class.con-error]="formRuta.origen().touched() && formRuta.origen().invalid()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -10,6 +11,22 @@
         </svg>
         <input #inputOrigen type="text" [formField]="formRuta.origen" placeholder="¿De dónde sales?"
           (input)="borrarCoords('origen')" (keydown.enter)="$event.preventDefault()" />
+
+        <!-- "★ Casa": aparece si lo escrito coincide con el nombre de una favorita -->
+        @if (sugerencia().origen; as fav) {
+          <button type="button" class="chip-fav" (click)="usarFavorita('origen', fav)">
+            ★ {{ fav.nombre }}
+          </button>
+        }
+
+        <!-- Estrella: abre la lista de favoritas -->
+        <button type="button" class="btn-fav" [class.activa]="listaFavoritas() === 'origen'"
+          (click)="alternarFavoritas('origen')" title="Usar una dirección favorita">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
+          </svg>
+        </button>
+
         <button type="button" class="btn-gps" (click)="usarMiUbicacion()" [disabled]="buscandoUbicacion()"
           title="Usar mi ubicación">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -19,12 +36,29 @@
           </svg>
         </button>
       </div>
+
+      @if (listaFavoritas() === 'origen') {
+        <ul class="lista-favoritas">
+          @for (fav of favoritasOrdenadas(); track fav.id) {
+            <li>
+              <button type="button" (click)="usarFavorita('origen', fav)">
+                <span class="fav-nombre">{{ fav.nombre || 'Sin nombre' }}</span>
+                <span class="fav-direccion">{{ fav.direccion }}</span>
+              </button>
+            </li>
+          } @empty {
+            <li class="fav-vacio">Todavía no tenés direcciones favoritas.</li>
+          }
+        </ul>
+      }
+
       <app-mensaje-error [campo]="formRuta.origen()" />
       @if (errorUbicacion()) {
         <p class="error-gps">{{ errorUbicacion() }}</p>
       }
     </div>
 
+    <!-- ===== Destino ===== -->
     <div class="campo">
       <div class="campo-input" [class.con-error]="formRuta.destino().touched() && formRuta.destino().invalid()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -34,7 +68,35 @@
         <input #inputDestino type="text" [formField]="formRuta.destino" placeholder="¿A dónde vas?"
           (input)="borrarCoords('destino')" (keydown.enter)="$event.preventDefault()" />
 
+        @if (sugerencia().destino; as fav) {
+          <button type="button" class="chip-fav" (click)="usarFavorita('destino', fav)">
+            ★ {{ fav.nombre }}
+          </button>
+        }
+
+        <button type="button" class="btn-fav" [class.activa]="listaFavoritas() === 'destino'"
+          (click)="alternarFavoritas('destino')" title="Usar una dirección favorita">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
+          </svg>
+        </button>
       </div>
+
+      @if (listaFavoritas() === 'destino') {
+        <ul class="lista-favoritas">
+          @for (fav of favoritasOrdenadas(); track fav.id) {
+            <li>
+              <button type="button" (click)="usarFavorita('destino', fav)">
+                <span class="fav-nombre">{{ fav.nombre || 'Sin nombre' }}</span>
+                <span class="fav-direccion">{{ fav.direccion }}</span>
+              </button>
+            </li>
+          } @empty {
+            <li class="fav-vacio">Todavía no tenés direcciones favoritas.</li>
+          }
+        </ul>
+      }
+
       <app-mensaje-error [campo]="formRuta.destino()" />
     </div>
 
@@ -42,7 +104,7 @@
       {{ calculando() ? 'Calculando…' : 'Calcular' }}
     </button>
     @if (errorCalculo()) {
-      <p class="error-gps">{{errorCalculo()}}</p>
+      <p class="error-gps">{{ errorCalculo() }}</p>
     }
   </form>
 
