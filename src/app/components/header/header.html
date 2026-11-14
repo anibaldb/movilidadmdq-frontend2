@@ -27,11 +27,11 @@
         @if (esAdmin()) {
           <a class="menu-item" routerLink="/admin/tarifa" (click)="cerrarMenu()">Configuración de tarifa</a>
           <a class="menu-item" routerLink="/admin/usuarios" (click)="cerrarMenu()">Gestión de usuarios</a>
+          <a class="menu-item" routerLink="/foros" (click)="cerrarMenu()">Foros</a>
         } @else {
           <a class="menu-item" routerLink="/perfil" (click)="cerrarMenu()">Mi perfil</a>
           <a class="menu-item" routerLink="/historial" (click)="cerrarMenu()">Mi historial</a>
-          <a class="menu-item" routerLink="/favoritos" (click)="cerrarMenu()">Mis direcciones favoritas</a>
-                    
+          <a class="menu-item" routerLink="/favoritos" (click)="cerrarMenu()">Mis direcciones favoritas</a>      
           <a class="menu-item" routerLink="/foros" (click)="cerrarMenu()">Foros</a>
         }
         <button type="button" class="menu-item menu-salir" (click)="cerrarSesion()">Cerrar sesión</button>

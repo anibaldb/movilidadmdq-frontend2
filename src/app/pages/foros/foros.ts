@@ -7,16 +7,19 @@ import { MensajeError } from '../../components/mensaje-error/mensaje-error';
 import { ForoService } from '../../services/foro-service';
 import { SesionService } from '../../services/sesion.service';
 import { Foro, MAX_FOROS_POR_USUARIO } from '../../models/foro-model';
+import { Autor } from '../../components/autor/autor/autor';
 
 @Component({
   selector: 'app-foros',
-  imports: [DatePipe, RouterLink, FormField, MensajeError],
+  imports: [DatePipe, RouterLink, FormField, MensajeError, Autor],
   templateUrl: './foros.html',
   styleUrl: './foros.css',
 })
 export class Foros {
   private readonly foroService = inject(ForoService);
   readonly idUsuario = inject(SesionService).usuario()!.id;
+
+  readonly esAdmin = inject(SesionService).esAdmin;
 
   // GET /foros: los foros de todos, del más nuevo al más viejo
   readonly foros = this.foroService.obtenerForos();

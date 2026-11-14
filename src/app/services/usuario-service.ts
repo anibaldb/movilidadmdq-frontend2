@@ -16,6 +16,14 @@ export class UsuarioService {
         return this.http.delete<void>(`${environment.apiUrl}/usuarios/${id}`)
     }
 
+    consultarBloqueo(query: string){
+        return this.http.get<UsuarioActualizarResponse>(`${environment.apiUrl}/usuarios/buscar`, { params: { query } })
+    }
+
+    bloquearUsuario(id: number, bloqueado: boolean){
+        return this.http.put<void>(`${environment.apiUrl}/usuarios/${id}/bloqueo`, null,{ params: { bloqueado }})
+    }
+
     obtenerViajeFrecuente(id: number){
         return httpResource<ViajeFrecuente>(() => ({
             url:`${environment.apiUrl}/usuarios/${id}/viaje-frecuente`

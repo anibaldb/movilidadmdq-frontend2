@@ -108,12 +108,18 @@ textarea.input {
   border-color: var(--color-text-faint);
 }
 
-.foro-link {
+.foro-cuerpo {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 0;
+}
+
+.foro-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   color: inherit;
   text-decoration: none;
 }

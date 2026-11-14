@@ -6,7 +6,7 @@
   } @else if (foro.value(); as f) {
     <header class="cabecera">
       <h2 class="titulo">{{ f.titulo }}</h2>
-      <span class="meta">{{ f.autor }} · {{ f.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</span>
+      <span class="meta"><app-autor [autorId]="f.autorId" [autor]="f.autor" /> · {{ f.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}</span>
       @if (f.descripcion) {
         <p class="descripcion">{{ f.descripcion }}</p>
       }
@@ -16,7 +16,7 @@
 
     @for (c of f.comentarios; track c.id) {
       <article class="comentario" [class.propio]="c.autorId === idUsuario">
-        <span class="meta"><strong>{{ c.autor }}</strong> · {{ c.fecha | date: 'dd/MM HH:mm' }}</span>
+        <span class="meta"><strong><app-autor [autorId]="c.autorId" [autor]="c.autor" /></strong> · {{ c.fecha | date: 'dd/MM HH:mm' }}</span>
         <p class="texto">{{ c.texto }}</p>
       </article>
     } @empty {

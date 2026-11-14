@@ -42,18 +42,21 @@
   } @else {
     @for (foro of foros.value(); track foro.id) {
       <article class="foro">
-        <a class="foro-link" [routerLink]="['/foros', foro.id]">
-          <span class="foro-titulo">{{ foro.titulo }}</span>
-          @if (foro.descripcion) {
-            <span class="foro-desc">{{ foro.descripcion }}</span>
-          }
+        <div class="foro-cuerpo">
+          <a class="foro-link" [routerLink]="['/foros', foro.id]">
+            <span class="foro-titulo">{{ foro.titulo }}</span>
+            @if (foro.descripcion) {
+              <span class="foro-desc">{{ foro.descripcion }}</span>
+            }
+          </a>
           <span class="foro-meta">
-            {{ foro.autor }} · {{ foro.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }} ·
+            <app-autor [autorId]="foro.autorId" [autor]="foro.autor" />
+            · {{ foro.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }} ·
             {{ foro.cantidadComentarios }} {{ foro.cantidadComentarios === 1 ? 'comentario' : 'comentarios' }}
           </span>
-        </a>
+        </div>
 
-        @if (foro.autorId === idUsuario) {
+        @if (foro.autorId === idUsuario || esAdmin()) {
           <button type="button" class="btn-icono" (click)="eliminar(foro)"
                   aria-label="Borrar foro" title="Borrar foro">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

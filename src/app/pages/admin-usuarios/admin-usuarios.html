@@ -39,15 +39,39 @@
         <dd>{{ usuario.value().email }}</dd>
         <dt>Rol</dt>
         <dd>{{ usuario.value().role === 'ADMIN' ? 'Administrador' : 'Usuario' }}</dd>
+        <dt>Estado</dt>
+        <dd>{{ bloqueado() ? 'Bloqueado (no puede crear foros ni comentar)' : 'Activo' }}</dd>
       </dl>
 
       @if (esUsuarioActual()) {
-        <p class="vacio">Esta es tu cuenta: no podés eliminarla desde acá.</p>
-      } @else if (!confirmando()) {
-        <button type="button" class="btn-eliminar" (click)="confirmando.set(true)">
-          Eliminar usuario
-        </button>
-      } @else {
+        <p class="vacio">Esta es tu cuenta: no podés bloquearla ni eliminarla desde acá.</p>
+      } @else if (confirmando() === 'bloquear' || confirmando() === 'desbloquear') {
+        <div class="confirmacion">
+          <p class="aviso">
+            @if (confirmando() === 'bloquear') {
+              ¿Bloquear a <strong>{{ usuario.value().username }}</strong>?
+              No va a poder crear foros ni comentar, pero sí va a poder verlos.
+            } @else {
+              ¿Desbloquear a <strong>{{ usuario.value().username }}</strong>?
+              Va a poder crear foros y comentar de nuevo.
+            }
+          </p>
+          <div class="acciones">
+            <button type="button" class="btn-cancelar" [disabled]="cambiandoBloqueo()"
+                    (click)="confirmando.set(null)">
+              Cancelar
+            </button>
+            <button type="button" class="btn-eliminar"
+                    [disabled]="cambiandoBloqueo()" (click)="confirmarBloqueo()">
+              @if (cambiandoBloqueo()) {
+                Guardando…
+              } @else {
+                {{ confirmando() === 'bloquear' ? 'Sí, bloquear' : 'Sí, desbloquear' }}
+              }
+            </button>
+          </div>
+        </div>
+      } @else if (confirmando() === 'eliminar') {
         <div class="confirmacion">
           <p class="aviso">
             ¿Eliminar la cuenta de <strong>{{ usuario.value().username }}</strong>?
@@ -55,13 +79,22 @@
           </p>
           <div class="acciones">
             <button type="button" class="btn-cancelar" [disabled]="eliminando()"
-                    (click)="confirmando.set(false)">
+                    (click)="confirmando.set(null)">
               Cancelar
             </button>
             <button type="button" class="btn-eliminar" [disabled]="eliminando()" (click)="eliminar()">
               {{ eliminando() ? 'Eliminando…' : 'Sí, eliminar' }}
             </button>
           </div>
+        </div>
+      } @else {
+        <div class="acciones">
+          <button type="button" class="btn-cancelar" (click)="pedirBloqueo()">
+            {{ bloqueado() ? 'Desbloquear usuario' : 'Bloquear usuario' }}
+          </button>
+          <button type="button" class="btn-eliminar" (click)="confirmando.set('eliminar')">
+            Eliminar usuario
+          </button>
         </div>
       }
 
