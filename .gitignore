@@ -43,5 +43,6 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
+
 # Notas locales del equipo (no van al repo)
 CLAUDE.md

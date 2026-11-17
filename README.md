@@ -13,7 +13,8 @@ entre Taxi, Uber y Didi. Trabajo final de Programación 4 (UTN).
 - Guardar direcciones favoritas con nombre ("Casa", "Trabajo") y usarlas al calcular.
 - Participar en foros: crear hasta 5 propios y comentar.
 - Administrador: configurar la tarifa de taxi, buscar, bloquear o eliminar usuarios
-  y moderar los foros.
+  y moderar los foros..
+
 
 ## Tecnologías
 Angular 22 (componentes standalone, signals, Signal Forms, httpResource),
