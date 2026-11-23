@@ -57,4 +57,5 @@ export interface ViajeCalcularResponse{
     tiempoMinutos:number,
     distanciaEnMetros:number,
     url:string
+    viajeId:number | null
 }

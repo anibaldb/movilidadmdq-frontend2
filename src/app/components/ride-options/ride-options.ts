@@ -8,7 +8,8 @@ function aRideOption(opcion:ViajeCalcularResponse):RideOption{
     tipo:opcion.tipo,
     tiempoEstimado:`${opcion.tiempoMinutos} min`,
     precio:opcion.precio,
-    url:opcion.url
+    url:opcion.url,
+    viajeId:opcion.viajeId
   };
 }
 
