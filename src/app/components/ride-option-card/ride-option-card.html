@@ -9,7 +9,8 @@
     <a class="btn-elegir"
        [href]="option().url"
        [attr.target]="esLlamada() ? null : '_blank'"
-       rel="noopener">
+       rel="noopener"
+       (click)="registrarEleccion()">
       {{ esLlamada() ? 'Llamar' : 'Elegir' }}
     </a>
   </div>
